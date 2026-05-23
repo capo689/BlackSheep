@@ -11,14 +11,14 @@ const tastingNotes = [
 const locations = {
   bars: [
     ["Idaho","Hell's Canyon Winery","Caldwell","18835 Symms Rd.","Chocolate Bars",43.66,-116.69,23,35],["Idaho","Kerry Hill Winery","Wilder","17264 Kerry Hill Ln.","Chocolate Bars",43.68,-116.91,22,36],["Idaho","North fork coffee roasters","McCall","204 Lenora St. Suite 100","Chocolate Bars",44.91,-116.10,24,30],["Idaho","Parma Ridge Winery","Parma","24509 Rudd Rd.","Chocolate Bars",43.78,-116.94,21,34],
-    ["Oregon","Bledsoe family winery","Bend","550 SW Industrial Way Suite 198","Chocolate Bars",44.05,-121.32,16,49],["Oregon","The Commons Cafe and Taproom","Bend","875 NW Brooks St.","Chocolate Bars",44.06,-121.32,16,49],["Oregon","Fika Sisters Coffeehouse","Sisters","201 E Sun Ranch Dr.","Chocolate Bars",44.29,-121.55,15,47],["Oregon","The Meadow","Portland","805 NW 23rd Ave.; 3731 N Mississippi Ave.","Chocolate Bars - 2 locations",45.52,-122.68,13,41],["Oregon","Newport Avenue Market","Bend","1121 NW Newport Ave.","Chocolate Bars",44.06,-121.33,16,49],["Oregon","Oliver Lemon's","Sisters","160 S. Fir St.","Chocolate Bars",44.29,-121.55,15,47],["Oregon","West Coast Provisions","Bend","2735 NW Crossing Dr.","Chocolate Bars",44.07,-121.36,16,49],["Oregon","The Workhouse","Bend","50 SE Scott St.","Chocolate Bars",44.05,-121.30,16,49],
-    ["Wisconsin","1855 Coffeehouse","Mazomanie","1 Broadhead St","Chocolate Bars",43.17,-89.80,66,42],["Wisconsin","Babcock Dairy Store","Madison","1605 Linden Dr.","Chocolate Bars",43.08,-89.42,69,44],["Wisconsin","Bandit Coffee & tacos","Madison","640 W Washington Ave","Chocolate Bars",43.07,-89.39,69,44],["Wisconsin","Cambridge Market Cafe","Cambridge","217 W Main St.","Chocolate Bars",43.00,-89.02,72,46],["Wisconsin","Conscious Carnivore","Madison","3236A University Ave","Chocolate Bars",43.08,-89.44,69,44],["Wisconsin","Dancing Goat Distillery","Cambridge","909 Vineyard Drive","Chocolate Bars",43.01,-89.02,72,46],["Wisconsin","Finca Coffee","Madison","2500 Rimrock Rd.","Chocolate Bars",43.04,-89.38,69,45],["Wisconsin","Glas coffee","Green Bay; Shawano","228 N Adams St - Green Bay; 511 N Main St - Shawano","Chocolate Bars",44.52,-88.02,75,31],["Wisconsin","Green Grocer & Deli","Williams Bay","24 W Geneva St","Chocolate Bars",42.58,-88.54,73,52],["Wisconsin","Kavarna coffeehouse","Green Bay","143 N Broadway","Chocolate Bars",44.52,-88.02,75,31],["Wisconsin","Maker's market square","Mt Horeb","101 S Main St","Chocolate Bars",43.01,-89.74,67,46],["Wisconsin","Mc farland house cafe","McFarland","5923 Exchange St","Chocolate Bars",43.01,-89.29,70,46],["Wisconsin","Red Bank Coffeehouse","Two Rivers","1623 Washington St.","Chocolate Bars",44.15,-87.57,78,36],["Wisconsin","Ruby Coffee roasters","Nelsonville, Stevens Point","9489 1st St - Nelsonville; 1410 3rd St - Stevens Point","Chocolate Bars",44.52,-89.55,68,30],["Wisconsin","Seven Acre Dairy","Belleville","6858 Paoli Rd","Chocolate Bars",42.86,-89.54,68,48],["Wisconsin","superette","Madison","1874 E Washington Ave","Chocolate Bars",43.09,-89.36,69,44],["Wisconsin","Tati Coffee","Fitchburg","4889 Lacy Rd #101","Chocolate Bars",43.00,-89.43,69,46],["Wisconsin","Twisted Grounds","Madison","6067 Gemini Dr.","Chocolate Bars",43.13,-89.29,70,44],["Wisconsin","Vitruvian Farms","McFarland","2727 US Hwy 51","Chocolate Bars",42.98,-89.29,70,46],["Wisconsin","Wine Styles","Sun Prairie","2824 Prairie Lakes Dr #105","Chocolate Bars",43.17,-89.27,70,43],["Wisconsin","Wisco Boxes","Mt Horeb","305 E Main St","Chocolate Bars",43.01,-89.74,67,46]
+    ["Oregon","Bledsoe family winery","Bend","550 SW Industrial Way Suite 198","Chocolate Bars",44.05,-121.32,16,49],["Oregon","The Commons Cafe and Taproom","Bend","875 NW Brooks St.","Chocolate Bars",44.06,-121.32,16,49],["Oregon","Fika Sisters Coffeehouse","Sisters","201 E Sun Ranch Dr.","Chocolate Bars",44.29,-121.55,15,47],["Oregon","The Meadow - NW 23rd","Portland","805 NW 23rd Ave.","Chocolate Bars",45.528,-122.699,13,41],["Oregon","The Meadow - Mississippi","Portland","3731 N Mississippi Ave.","Chocolate Bars",45.55,-122.675,13,41],["Oregon","Newport Avenue Market","Bend","1121 NW Newport Ave.","Chocolate Bars",44.06,-121.33,16,49],["Oregon","Oliver Lemon's","Sisters","160 S. Fir St.","Chocolate Bars",44.29,-121.55,15,47],["Oregon","West Coast Provisions","Bend","2735 NW Crossing Dr.","Chocolate Bars",44.07,-121.36,16,49],["Oregon","The Workhouse","Bend","50 SE Scott St.","Chocolate Bars",44.05,-121.30,16,49],
+    ["Wisconsin","1855 Coffeehouse","Mazomanie","1 Broadhead St","Chocolate Bars",43.17,-89.80,66,42],["Wisconsin","Babcock Dairy Store","Madison","1605 Linden Dr.","Chocolate Bars",43.08,-89.42,69,44],["Wisconsin","Bandit Coffee & tacos","Madison","640 W Washington Ave","Chocolate Bars",43.07,-89.39,69,44],["Wisconsin","Cambridge Market Cafe","Cambridge","217 W Main St.","Chocolate Bars",43.00,-89.02,72,46],["Wisconsin","Conscious Carnivore","Madison","3236A University Ave","Chocolate Bars",43.08,-89.44,69,44],["Wisconsin","Dancing Goat Distillery","Cambridge","909 Vineyard Drive","Chocolate Bars",43.01,-89.02,72,46],["Wisconsin","Finca Coffee","Madison","2500 Rimrock Rd.","Chocolate Bars",43.04,-89.38,69,45],["Wisconsin","Glas Coffee - Green Bay","Green Bay","228 N Adams St","Chocolate Bars",44.515,-88.016,75,31],["Wisconsin","Glas Coffee - Shawano","Shawano","511 N Main St","Chocolate Bars",44.782,-88.609,73,29],["Wisconsin","Green Grocer & Deli","Williams Bay","24 W Geneva St","Chocolate Bars",42.58,-88.54,73,52],["Wisconsin","Kavarna coffeehouse","Green Bay","143 N Broadway","Chocolate Bars",44.52,-88.02,75,31],["Wisconsin","Maker's market square","Mt Horeb","101 S Main St","Chocolate Bars",43.01,-89.74,67,46],["Wisconsin","Mc farland house cafe","McFarland","5923 Exchange St","Chocolate Bars",43.01,-89.29,70,46],["Wisconsin","Red Bank Coffeehouse","Two Rivers","1623 Washington St.","Chocolate Bars",44.15,-87.57,78,36],["Wisconsin","Ruby Coffee Roasters - Nelsonville","Nelsonville","9489 1st St","Chocolate Bars",44.495,-89.309,68,30],["Wisconsin","Ruby Coffee Roasters - Stevens Point","Stevens Point","1410 3rd St","Chocolate Bars",44.523,-89.575,68,30],["Wisconsin","Seven Acre Dairy","Belleville","6858 Paoli Rd","Chocolate Bars",42.86,-89.54,68,48],["Wisconsin","superette","Madison","1874 E Washington Ave","Chocolate Bars",43.09,-89.36,69,44],["Wisconsin","Tati Coffee","Fitchburg","4889 Lacy Rd #101","Chocolate Bars",43.00,-89.43,69,46],["Wisconsin","Twisted Grounds","Madison","6067 Gemini Dr.","Chocolate Bars",43.13,-89.29,70,44],["Wisconsin","Vitruvian Farms","McFarland","2727 US Hwy 51","Chocolate Bars",42.98,-89.29,70,46],["Wisconsin","Wine Styles","Sun Prairie","2824 Prairie Lakes Dr #105","Chocolate Bars",43.17,-89.27,70,43],["Wisconsin","Wisco Boxes","Mt Horeb","305 E Main St","Chocolate Bars",43.01,-89.74,67,46]
   ],
   drinks: [
     ["Wisconsin","1855 Coffee house","Mazomaine","1 Broadhead St","Cacao Tea",43.17,-89.80,66,42],["Wisconsin","tati coffee","Fitchburg","4889 Lacy Rd #101","Cacao Tea",43.00,-89.43,69,46],["Wisconsin","Telsaan tea","Mount Horeb","108 E Main St","Cacao Tea",43.01,-89.74,67,46],["Wisconsin","Maker's Market Square","Mt Horeb","101 S. Main St","drinking chocolate",43.01,-89.74,67,46],["Wisconsin","seven acre dairy","Belleville","6858 Paoli Rd","drinking chocolate",42.86,-89.54,68,48]
   ],
   bulk: [
-    ["Oregon","Not bread","Bend, Portland","Chocolate Chip Seed loaf","Bulk Chocolate",44.05,-121.32,16,49],["Oregon","Rachel's bakery","Bend","West Coast Babka","Bulk Chocolate",44.05,-121.32,16,49],["Wisconsin","Driftless Chocolates","Mt Horeb","Artisan Dark Truffles","Bulk Chocolate",43.01,-89.74,67,46],["Wisconsin","shift Cyclery","Eau Claire","Mochas and Hot Chocolate","Bulk Drinks",44.81,-91.50,62,32]
+    ["Oregon","Not bread - Bend","Bend","Chocolate Chip Seed loaf","Bulk Chocolate",44.05,-121.32,16,49],["Oregon","Not bread - Portland","Portland","Chocolate Chip Seed loaf","Bulk Chocolate",45.52,-122.67,13,41],["Oregon","Rachel's bakery","Bend","West Coast Babka","Bulk Chocolate",44.05,-121.32,16,49],["Wisconsin","Driftless Chocolates","Mt Horeb","Artisan Dark Truffles","Bulk Chocolate",43.01,-89.74,67,46],["Wisconsin","shift Cyclery","Eau Claire","Mochas and Hot Chocolate","Bulk Drinks",44.81,-91.50,62,32]
   ]
 };
 
@@ -101,53 +101,49 @@ function renderLocator() {
     <p class="nearest-status" id="nearest-status">${data.length} locations loaded.</p>
     <div class="locator-layout">
       <div class="store-list" id="store-list" aria-live="polite"></div>
-      <div class="map-panel"><div class="map-canvas" id="map-canvas"><h2 class="map-title">Selected Store</h2><p class="map-help">Search, filter, or tap a store. The sheep pins show regional clusters; every store card includes a real Google Maps link.</p><div class="map-info" id="map-info"><strong>Choose a store.</strong><p>Store details will appear here.</p></div></div></div>
+      <div class="map-panel"><div class="leaflet-map" id="locator-map" aria-label="Store locator map"></div><div class="map-info" id="map-info"><strong>Choose a store.</strong><p>Store details will appear here.</p></div></div>
     </div>`;
 
   const search = app.querySelector("#locator-search");
   const stateFilter = app.querySelector("#state-filter");
   const list = app.querySelector("#store-list");
-  const map = app.querySelector("#map-canvas");
+  const mapEl = app.querySelector("#locator-map");
   const info = app.querySelector("#map-info");
   const status = app.querySelector("#nearest-status");
   const rail = app.querySelector("#state-rail");
   let activeId = data[0]?.id;
   let current = [...data];
+  let userLocation = null;
+  let leaflet = null;
 
   function draw() {
     const term = search.value.trim().toLowerCase();
     const state = stateFilter.value;
     current = data.filter((item) => (state === "All states" || item.state === state) && [item.name, item.city, item.address, item.category, item.state].join(" ").toLowerCase().includes(term));
-    status.textContent = `${current.length} ${current.length === 1 ? "location" : "locations"} shown.`;
+    if (userLocation) current.sort((a, b) => distance(userLocation, a) - distance(userLocation, b));
+    status.textContent = `${current.length} ${current.length === 1 ? "location" : "locations"} shown${userLocation ? " sorted by distance from you" : ""}.`;
     rail.querySelectorAll(".state-pill").forEach((button) => button.classList.toggle("active", button.dataset.state === state));
     list.innerHTML = current.map(cardMarkup).join("");
-    map.querySelectorAll(".map-pin").forEach((pin) => pin.remove());
-    current.forEach((item) => {
-      const pin = document.createElement("button");
-      pin.className = `map-pin${item.id === activeId ? " active" : ""}`;
-      pin.style.left = `${item.x}%`;
-      pin.style.top = `${item.y}%`;
-      pin.type = "button";
-      pin.setAttribute("aria-label", item.name);
-      pin.addEventListener("click", () => setActive(item.id));
-      map.append(pin);
-    });
     if (!current.some((item) => item.id === activeId) && current[0]) activeId = current[0].id;
     updateInfo();
+    drawMap();
   }
   function cardMarkup(item) {
-    return `<article class="store-card${item.id === activeId ? " active" : ""}" data-id="${item.id}" tabindex="0"><span class="store-icon" aria-hidden="true"></span><div><h3>${item.name}</h3><p>${item.city}, ${item.state}</p><p>${item.address}</p><span class="tag">${item.category}</span><br><a href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a></div></article>`;
+    const miles = userLocation ? `<span class="distance">${Math.round(distance(userLocation, item))} mi away</span>` : "";
+    return `<article class="store-card${item.id === activeId ? " active" : ""}" data-id="${item.id}" tabindex="0"><span class="store-icon" aria-hidden="true"></span><div><h3>${item.name}</h3><p>${item.city}, ${item.state}</p><p>${item.address}</p><span class="tag">${item.category}</span>${miles}<br><a href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a></div></article>`;
   }
   function setActive(id) {
     activeId = id;
     draw();
     const card = list.querySelector(`[data-id="${id}"]`);
     if (card) card.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+    focusMarker();
   }
   function updateInfo() {
     const item = data.find((entry) => entry.id === activeId) || current[0];
     if (!item) return;
-    info.innerHTML = `<strong>${item.name}</strong><p>${item.city}, ${item.state}<br>${item.address}</p><p>${item.category}</p><a class="button button-light" href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a>`;
+    const miles = userLocation ? `<p>${Math.round(distance(userLocation, item))} miles from your location.</p>` : "";
+    info.innerHTML = `<strong>${item.name}</strong><p>${item.city}, ${item.state}<br>${item.address}</p><p>${item.category}</p>${miles}<a class="button button-light" href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a>`;
     list.querySelectorAll(".store-card").forEach((card) => {
       card.addEventListener("click", () => setActive(Number(card.dataset.id)));
       card.addEventListener("keydown", (event) => { if (event.key === "Enter") setActive(Number(card.dataset.id)); });
@@ -155,6 +151,115 @@ function renderLocator() {
   }
   function mapsUrl(item) {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.name} ${item.address} ${item.city} ${item.state}`)}`;
+  }
+  function popupMarkup(item) {
+    return `<strong>${item.name}</strong><br>${item.city}, ${item.state}<br>${item.address}<br><a href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a>`;
+  }
+  async function initMap() {
+    if (leaflet) return leaflet;
+    status.textContent = "Loading interactive map...";
+    const L = await loadLeaflet();
+    const map = L.map(mapEl, { scrollWheelZoom: false, preferCanvas: true });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(map);
+    const markerLayer = window.L.markerClusterGroup ? window.L.markerClusterGroup({
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      maxClusterRadius: 42
+    }) : L.layerGroup();
+    markerLayer.addTo(map);
+    leaflet = { L, map, markerLayer, markers: new Map(), userMarker: null };
+    return leaflet;
+  }
+  function drawMap() {
+    if (!leaflet) return;
+    const { L, map, markerLayer, markers } = leaflet;
+    markers.clear();
+    markerLayer.clearLayers();
+    current.forEach((item) => {
+      const marker = L.marker([item.lat, item.lng], { icon: sheepIcon(item.id === activeId), title: item.name });
+      marker.bindPopup(popupMarkup(item));
+      marker.on("click", () => {
+        activeId = item.id;
+        updateInfo();
+        list.innerHTML = current.map(cardMarkup).join("");
+        bindCards();
+      });
+      markers.set(item.id, marker);
+      markerLayer.addLayer(marker);
+    });
+    if (userLocation) drawUserMarker();
+    if (current.length) {
+      const bounds = L.latLngBounds(current.map((item) => [item.lat, item.lng]));
+      if (userLocation) bounds.extend([userLocation.lat, userLocation.lng]);
+      map.fitBounds(bounds, { padding: [32, 32], maxZoom: current.length === 1 ? 13 : 8 });
+    }
+    focusMarker(false);
+  }
+  function focusMarker(openPopup = true) {
+    if (!leaflet) return;
+    const marker = leaflet.markers.get(activeId);
+    const item = data.find((entry) => entry.id === activeId);
+    if (!marker || !item) return;
+    marker.setIcon(sheepIcon(true));
+    leaflet.map.setView([item.lat, item.lng], Math.max(leaflet.map.getZoom(), 11), { animate: !reduceMotion });
+    if (openPopup) marker.openPopup();
+  }
+  function sheepIcon(active = false) {
+    return window.L.divIcon({
+      className: `sheep-map-marker${active ? " active" : ""}`,
+      html: '<span></span>',
+      iconSize: active ? [48, 48] : [38, 38],
+      iconAnchor: active ? [24, 24] : [19, 19],
+      popupAnchor: [0, -22]
+    });
+  }
+  function drawUserMarker() {
+    if (!leaflet || !userLocation) return;
+    const { L, map } = leaflet;
+    if (leaflet.userMarker) leaflet.userMarker.remove();
+    leaflet.userMarker = L.circleMarker([userLocation.lat, userLocation.lng], {
+      radius: 9,
+      color: "#111",
+      fillColor: "#c2a080",
+      fillOpacity: .9,
+      weight: 3
+    }).addTo(map).bindPopup("Your location");
+  }
+  function bindCards() {
+    list.querySelectorAll(".store-card").forEach((card) => {
+      card.addEventListener("click", () => setActive(Number(card.dataset.id)));
+      card.addEventListener("keydown", (event) => { if (event.key === "Enter") setActive(Number(card.dataset.id)); });
+    });
+  }
+  function loadLeaflet() {
+    if (window.L && window.L.map) return Promise.resolve(window.L);
+    appendStylesheet("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css");
+    appendStylesheet("https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css");
+    appendStylesheet("https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css");
+    return loadScript("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js")
+      .then(() => loadScript("https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js").catch(() => window.L))
+      .then(() => window.L);
+  }
+  function appendStylesheet(href) {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.append(link);
+  }
+  function loadScript(src) {
+    if (document.querySelector(`script[src="${src}"]`)) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = true;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.append(script);
+    });
   }
   function distance(a, b) {
     const r = 3958.8, dLat = (b.lat - a.lat) * Math.PI / 180, dLng = (b.lng - a.lng) * Math.PI / 180;
@@ -168,6 +273,7 @@ function renderLocator() {
     navigator.geolocation.getCurrentPosition((position) => {
       const here = { lat: position.coords.latitude, lng: position.coords.longitude };
       const nearest = [...data].sort((a, b) => distance(here, a) - distance(here, b))[0];
+      userLocation = here;
       activeId = nearest.id;
       status.textContent = `Nearest result: ${nearest.name}, about ${Math.round(distance(here, nearest))} miles away.`;
       draw();
@@ -182,6 +288,10 @@ function renderLocator() {
     });
   });
   draw();
+  initMap().then(() => draw()).catch(() => {
+    status.textContent = "Interactive map could not load. Store cards and Google Maps links are still available.";
+    mapEl.innerHTML = '<div class="map-fallback">Map could not load. Use the store cards and Google Maps links.</div>';
+  });
 }
 
 async function initThreeHero() {
