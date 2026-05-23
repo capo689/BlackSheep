@@ -97,10 +97,11 @@ function renderLocator() {
       <select id="state-filter" aria-label="Filter by state">${states.map((state) => `<option value="${state}">${state}</option>`).join("")}</select>
       <button class="button button-light" id="near-me" type="button">Store near me</button>
     </div>
+    <div class="state-rail" id="state-rail">${states.map((state) => `<button class="state-pill" type="button" data-state="${state}">${state}</button>`).join("")}</div>
     <p class="nearest-status" id="nearest-status">${data.length} locations loaded.</p>
     <div class="locator-layout">
-      <div class="map-panel"><div class="map-canvas" id="map-canvas"><div class="map-info" id="map-info"><strong>Choose a sheep pin.</strong><p>Each pin opens a local store card with product details.</p></div></div></div>
       <div class="store-list" id="store-list" aria-live="polite"></div>
+      <div class="map-panel"><div class="map-canvas" id="map-canvas"><h2 class="map-title">Selected Store</h2><p class="map-help">Search, filter, or tap a store. The sheep pins show regional clusters; every store card includes a real Google Maps link.</p><div class="map-info" id="map-info"><strong>Choose a store.</strong><p>Store details will appear here.</p></div></div></div>
     </div>`;
 
   const search = app.querySelector("#locator-search");
@@ -109,6 +110,7 @@ function renderLocator() {
   const map = app.querySelector("#map-canvas");
   const info = app.querySelector("#map-info");
   const status = app.querySelector("#nearest-status");
+  const rail = app.querySelector("#state-rail");
   let activeId = data[0]?.id;
   let current = [...data];
 
@@ -117,6 +119,7 @@ function renderLocator() {
     const state = stateFilter.value;
     current = data.filter((item) => (state === "All states" || item.state === state) && [item.name, item.city, item.address, item.category, item.state].join(" ").toLowerCase().includes(term));
     status.textContent = `${current.length} ${current.length === 1 ? "location" : "locations"} shown.`;
+    rail.querySelectorAll(".state-pill").forEach((button) => button.classList.toggle("active", button.dataset.state === state));
     list.innerHTML = current.map(cardMarkup).join("");
     map.querySelectorAll(".map-pin").forEach((pin) => pin.remove());
     current.forEach((item) => {
@@ -133,7 +136,7 @@ function renderLocator() {
     updateInfo();
   }
   function cardMarkup(item) {
-    return `<article class="store-card${item.id === activeId ? " active" : ""}" data-id="${item.id}" tabindex="0"><span class="store-icon"><span class="sheep-mark" aria-hidden="true"></span></span><div><h3>${item.name}</h3><p>${item.city}, ${item.state}</p><p>${item.address}</p><span class="tag">${item.category}</span></div></article>`;
+    return `<article class="store-card${item.id === activeId ? " active" : ""}" data-id="${item.id}" tabindex="0"><span class="store-icon" aria-hidden="true"></span><div><h3>${item.name}</h3><p>${item.city}, ${item.state}</p><p>${item.address}</p><span class="tag">${item.category}</span><br><a href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a></div></article>`;
   }
   function setActive(id) {
     activeId = id;
@@ -144,11 +147,14 @@ function renderLocator() {
   function updateInfo() {
     const item = data.find((entry) => entry.id === activeId) || current[0];
     if (!item) return;
-    info.innerHTML = `<strong>${item.name}</strong><p>${item.city}, ${item.state}<br>${item.address}</p><p>${item.category}</p>`;
+    info.innerHTML = `<strong>${item.name}</strong><p>${item.city}, ${item.state}<br>${item.address}</p><p>${item.category}</p><a class="button button-light" href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a>`;
     list.querySelectorAll(".store-card").forEach((card) => {
       card.addEventListener("click", () => setActive(Number(card.dataset.id)));
       card.addEventListener("keydown", (event) => { if (event.key === "Enter") setActive(Number(card.dataset.id)); });
     });
+  }
+  function mapsUrl(item) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.name} ${item.address} ${item.city} ${item.state}`)}`;
   }
   function distance(a, b) {
     const r = 3958.8, dLat = (b.lat - a.lat) * Math.PI / 180, dLng = (b.lng - a.lng) * Math.PI / 180;
@@ -169,6 +175,12 @@ function renderLocator() {
   });
   search.addEventListener("input", draw);
   stateFilter.addEventListener("change", draw);
+  rail.querySelectorAll(".state-pill").forEach((button) => {
+    button.addEventListener("click", () => {
+      stateFilter.value = button.dataset.state;
+      draw();
+    });
+  });
   draw();
 }
 
@@ -185,8 +197,8 @@ async function initThreeHero() {
     camera.position.set(0, 1.2, 8);
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.6));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    scene.add(new THREE.AmbientLight(0xfff0c6, .85));
-    const light = new THREE.PointLight(0xffbf63, 55, 24);
+    scene.add(new THREE.AmbientLight(0xffffff, 1.05));
+    const light = new THREE.PointLight(0xc2a080, 42, 24);
     light.position.set(-3, 4, 5);
     scene.add(light);
 
@@ -196,7 +208,7 @@ async function initThreeHero() {
         transparent: true,
         uniforms: { uTime: { value: 0 }, uMouse: { value: pointer } },
         vertexShader: `uniform float uTime; uniform vec2 uMouse; varying vec2 vUv; void main(){ vUv=uv; vec3 p=position; p.z += sin(p.x*1.2+uTime)*.22 + sin(p.y*2.4+uTime*1.4)*.16; p.x += sin(p.y*1.8+uTime)*.12; gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0); }`,
-        fragmentShader: `uniform float uTime; varying vec2 vUv; void main(){ float ribbon=sin((vUv.x+vUv.y*.35)*18.0+uTime*1.8)*.5+.5; vec3 dark=vec3(.08,.025,.012); vec3 warm=vec3(.36,.14,.055); vec3 shine=vec3(.9,.58,.26); vec3 color=mix(dark,warm,smoothstep(.2,1.,ribbon)); color=mix(color,shine,pow(ribbon,8.)*.32); float alpha=.72*smoothstep(0.,.18,vUv.y)*(1.-smoothstep(.92,1.,vUv.y)); gl_FragColor=vec4(color,alpha); }`
+        fragmentShader: `uniform float uTime; varying vec2 vUv; void main(){ float ribbon=sin((vUv.x+vUv.y*.35)*18.0+uTime*1.8)*.5+.5; vec3 ink=vec3(.06,.055,.05); vec3 tan=vec3(.76,.62,.49); vec3 cream=vec3(1.,.96,.86); vec3 color=mix(tan,ink,smoothstep(.35,1.,ribbon)); color=mix(color,cream,pow(1.-ribbon,8.)*.24); float alpha=.42*smoothstep(0.,.18,vUv.y)*(1.-smoothstep(.92,1.,vUv.y)); gl_FragColor=vec4(color,alpha); }`
       })
     );
     river.rotation.x = -1.16;
@@ -206,10 +218,10 @@ async function initThreeHero() {
     const loader = new THREE.TextureLoader();
     const group = new THREE.Group();
     scene.add(group);
-    ["/package.jpg", "/beans.jpg", "/bars.jpg"].forEach((src, i) => {
+    ["/assets/live/logo-mascot.png", "/package.jpg", "/assets/live/bars-hand.jpg"].forEach((src, i) => {
       const tex = loader.load(src);
       tex.colorSpace = THREE.SRGBColorSpace;
-      const mesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.08, .08), new THREE.MeshStandardMaterial({ map: tex, roughness: .5, metalness: .04 }));
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(i === 0 ? 1.35 : 1.6, i === 0 ? 1.35 : 1.08, .08), new THREE.MeshStandardMaterial({ map: tex, roughness: .56, metalness: .02 }));
       mesh.position.set(-2.8 + i * 2.65, .85 - i * .24, -1.4 - i * .55);
       mesh.rotation.set(.08, -.22 + i * .18, -.12 + i * .08);
       mesh.userData.baseY = mesh.position.y;
@@ -230,7 +242,7 @@ async function initThreeHero() {
     sheep.position.set(2.8, 1.8, -1.2);
     scene.add(sheep);
 
-    const nibs = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ color: 0xd59b3d, size: .035, transparent: true, opacity: .9 }));
+    const nibs = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ color: 0x171513, size: .03, transparent: true, opacity: .42 }));
     const count = 520, pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) { pos[i*3] = (Math.random()-.5)*12; pos[i*3+1] = (Math.random()-.5)*7; pos[i*3+2] = -2-Math.random()*7; }
     nibs.geometry.setAttribute("position", new THREE.BufferAttribute(pos, 3));
