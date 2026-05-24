@@ -25,6 +25,7 @@ const locations = {
 initNav();
 initTransitions();
 initReveals();
+initMascotEyes();
 renderTasting();
 renderLocator();
 if (!reduceMotion && document.body.classList.contains("home-page")) initThreeHero();
@@ -48,9 +49,33 @@ function initTransitions() {
       if (!href || href === window.location.pathname) return;
       event.preventDefault();
       window.gsap.timeline({ onComplete: () => { window.location.href = href; } })
-        .to(wipe, { height: "140vh", duration: .46, ease: "power2.inOut" });
+        .set(wipe, { clearProps: "transform", y: "-132vh", opacity: 1, "--drip-a": "18vh", "--drip-b": "28vh", "--drip-c": "14vh", "--drip-d": "24vh" })
+        .to(wipe, { y: "-12vh", duration: 1.06, ease: "power2.in" }, 0)
+        .to(wipe, { "--drip-a": "42vh", "--drip-b": "23vh", "--drip-c": "52vh", "--drip-d": "34vh", duration: 1.06, ease: "sine.inOut" }, 0)
+        .to(wipe, { y: 0, duration: .28, ease: "power1.out" });
     });
   });
+}
+
+function initMascotEyes() {
+  const mascot = document.querySelector("[data-mascot]");
+  if (!mascot || reduceMotion) return;
+  const move = (event) => {
+    const rect = mascot.getBoundingClientRect();
+    const centerX = rect.left + rect.width * .58;
+    const centerY = rect.top + rect.height * .44;
+    const x = Math.max(-1, Math.min(1, (event.clientX - centerX) / (rect.width * .42)));
+    const y = Math.max(-1, Math.min(1, (event.clientY - centerY) / (rect.height * .42)));
+    mascot.style.setProperty("--eye-x", `${x * 5}px`);
+    mascot.style.setProperty("--eye-y", `${y * 4}px`);
+    mascot.style.setProperty("--mascot-tilt", `${x * 2.2}deg`);
+  };
+  window.addEventListener("pointermove", move, { passive: true });
+  window.addEventListener("pointerleave", () => {
+    mascot.style.setProperty("--eye-x", "0px");
+    mascot.style.setProperty("--eye-y", "0px");
+    mascot.style.setProperty("--mascot-tilt", "0deg");
+  }, { passive: true });
 }
 
 function initReveals() {
@@ -87,17 +112,39 @@ function renderTasting() {
 
 function renderLocator() {
   const app = document.querySelector("#locator-app");
-  const type = document.body.dataset.locator;
-  if (!app || !locations[type]) return;
-  const data = locations[type].map(([state, name, city, address, category, lat, lng, x, y], id) => ({ id, state, name, city, address, category, lat, lng, x, y }));
+  const type = document.body.dataset.locator || "all";
+  if (!app) return;
+  const types = type === "all" || !locations[type] ? ["bars", "drinks", "bulk"] : [type];
+  const data = types.flatMap((kind) => locations[kind].map(([state, name, city, address, category, lat, lng, x, y], id) => ({
+    id: `${kind}-${id}`,
+    kind,
+    state,
+    name,
+    city,
+    address,
+    category,
+    lat,
+    lng,
+    x,
+    y
+  }))).sort((a, b) => a.state.localeCompare(b.state) || a.city.localeCompare(b.city) || a.name.localeCompare(b.name));
+  if (!data.length) return;
+  const productOptions = [
+    ["all", "All products"],
+    ["bars", "Chocolate bars"],
+    ["drinks", "Cacao tea + drinking chocolate"],
+    ["bulk", "Bulk chocolate + drinks"]
+  ].filter(([value]) => value === "all" || types.includes(value));
   const states = ["All states", ...new Set(data.map((item) => item.state))];
   app.innerHTML = `
     <div class="locator-tools">
       <input id="locator-search" placeholder="Search by store, city, product, or address" aria-label="Search locations">
+      <select id="product-filter" aria-label="Filter by product">${productOptions.map(([value, label]) => `<option value="${value}">${label}</option>`).join("")}</select>
       <select id="state-filter" aria-label="Filter by state">${states.map((state) => `<option value="${state}">${state}</option>`).join("")}</select>
       <button class="button button-light" id="near-me" type="button">Store near me</button>
     </div>
-    <div class="state-rail" id="state-rail">${states.map((state) => `<button class="state-pill" type="button" data-state="${state}">${state}</button>`).join("")}</div>
+    <div class="filter-rail product-rail" id="product-rail">${productOptions.map(([value, label]) => `<button class="state-pill product-pill" type="button" data-product="${value}">${label}</button>`).join("")}</div>
+    <div class="filter-rail state-rail" id="state-rail">${states.map((state) => `<button class="state-pill" type="button" data-state="${state}">${state}</button>`).join("")}</div>
     <p class="nearest-status" id="nearest-status">${data.length} locations loaded.</p>
     <div class="locator-layout">
       <div class="store-list" id="store-list" aria-live="polite"></div>
@@ -105,12 +152,14 @@ function renderLocator() {
     </div>`;
 
   const search = app.querySelector("#locator-search");
+  const productFilter = app.querySelector("#product-filter");
   const stateFilter = app.querySelector("#state-filter");
   const list = app.querySelector("#store-list");
   const mapEl = app.querySelector("#locator-map");
   const info = app.querySelector("#map-info");
   const status = app.querySelector("#nearest-status");
   const rail = app.querySelector("#state-rail");
+  const productRail = app.querySelector("#product-rail");
   let activeId = data[0]?.id;
   let current = [...data];
   let userLocation = null;
@@ -119,18 +168,45 @@ function renderLocator() {
   function draw() {
     const term = search.value.trim().toLowerCase();
     const state = stateFilter.value;
-    current = data.filter((item) => (state === "All states" || item.state === state) && [item.name, item.city, item.address, item.category, item.state].join(" ").toLowerCase().includes(term));
+    const product = productFilter.value;
+    current = data.filter((item) => {
+      const searchable = [item.name, item.city, item.address, item.category, item.state, kindLabel(item.kind)].join(" ").toLowerCase();
+      return (product === "all" || item.kind === product) &&
+        (state === "All states" || item.state === state) &&
+        searchable.includes(term);
+    });
     if (userLocation) current.sort((a, b) => distance(userLocation, a) - distance(userLocation, b));
     status.textContent = `${current.length} ${current.length === 1 ? "location" : "locations"} shown${userLocation ? " sorted by distance from you" : ""}.`;
     rail.querySelectorAll(".state-pill").forEach((button) => button.classList.toggle("active", button.dataset.state === state));
-    list.innerHTML = current.map(cardMarkup).join("");
-    if (!current.some((item) => item.id === activeId) && current[0]) activeId = current[0].id;
+    productRail.querySelectorAll(".product-pill").forEach((button) => button.classList.toggle("active", button.dataset.product === product));
+    if (!current.length) activeId = null;
+    else if (!current.some((item) => item.id === activeId)) activeId = current[0].id;
+    list.innerHTML = listMarkup(current);
     updateInfo();
     drawMap();
   }
+  function listMarkup(items) {
+    if (!items.length) {
+      return '<div class="empty-results"><h2>No retailers found.</h2><p>Try a broader product, state, or city search.</p></div>';
+    }
+    if (userLocation) {
+      return `<section class="store-group"><h2>Closest matches</h2>${items.map(cardMarkup).join("")}</section>`;
+    }
+    const grouped = items.reduce((groups, item) => {
+      if (!groups.has(item.state)) groups.set(item.state, []);
+      groups.get(item.state).push(item);
+      return groups;
+    }, new Map());
+    return [...grouped.entries()].map(([state, group]) => `
+      <section class="store-group">
+        <h2>${state}<span>${group.length} ${group.length === 1 ? "location" : "locations"}</span></h2>
+        ${group.map(cardMarkup).join("")}
+      </section>
+    `).join("");
+  }
   function cardMarkup(item) {
     const miles = userLocation ? `<span class="distance">${Math.round(distance(userLocation, item))} mi away</span>` : "";
-    return `<article class="store-card${item.id === activeId ? " active" : ""}" data-id="${item.id}" tabindex="0"><span class="store-icon" aria-hidden="true"></span><div><h3>${item.name}</h3><p>${item.city}, ${item.state}</p><p>${item.address}</p><span class="tag">${item.category}</span>${miles}<br><a href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a></div></article>`;
+    return `<article class="store-card${item.id === activeId ? " active" : ""}" data-id="${item.id}" tabindex="0"><span class="store-icon ${item.kind}" aria-hidden="true"></span><div><h3>${item.name}</h3><p>${item.city}, ${item.state}</p><p>${item.address}</p><span class="product-kind">${kindLabel(item.kind)}</span><span class="tag">${item.category}</span>${miles}<br><a href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a></div></article>`;
   }
   function setActive(id) {
     activeId = id;
@@ -141,13 +217,13 @@ function renderLocator() {
   }
   function updateInfo() {
     const item = data.find((entry) => entry.id === activeId) || current[0];
-    if (!item) return;
+    if (!item) {
+      info.innerHTML = "<strong>No retailer selected.</strong><p>Adjust the filters to show more locations.</p>";
+      return;
+    }
     const miles = userLocation ? `<p>${Math.round(distance(userLocation, item))} miles from your location.</p>` : "";
-    info.innerHTML = `<strong>${item.name}</strong><p>${item.city}, ${item.state}<br>${item.address}</p><p>${item.category}</p>${miles}<a class="button button-light" href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a>`;
-    list.querySelectorAll(".store-card").forEach((card) => {
-      card.addEventListener("click", () => setActive(Number(card.dataset.id)));
-      card.addEventListener("keydown", (event) => { if (event.key === "Enter") setActive(Number(card.dataset.id)); });
-    });
+    info.innerHTML = `<strong>${item.name}</strong><p>${item.city}, ${item.state}<br>${item.address}</p><p><span class="product-kind">${kindLabel(item.kind)}</span>${item.category}</p>${miles}<a class="button button-light" href="${mapsUrl(item)}" target="_blank" rel="noreferrer">Open in Google Maps</a>`;
+    bindCards();
   }
   function mapsUrl(item) {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.name} ${item.address} ${item.city} ${item.state}`)}`;
@@ -184,7 +260,7 @@ function renderLocator() {
       marker.on("click", () => {
         activeId = item.id;
         updateInfo();
-        list.innerHTML = current.map(cardMarkup).join("");
+        list.innerHTML = listMarkup(current);
         bindCards();
       });
       markers.set(item.id, marker);
@@ -230,9 +306,12 @@ function renderLocator() {
   }
   function bindCards() {
     list.querySelectorAll(".store-card").forEach((card) => {
-      card.addEventListener("click", () => setActive(Number(card.dataset.id)));
-      card.addEventListener("keydown", (event) => { if (event.key === "Enter") setActive(Number(card.dataset.id)); });
+      card.addEventListener("click", () => setActive(card.dataset.id));
+      card.addEventListener("keydown", (event) => { if (event.key === "Enter") setActive(card.dataset.id); });
     });
+  }
+  function kindLabel(kind) {
+    return { bars: "Chocolate bars", drinks: "Cacao drinks", bulk: "Bulk partners" }[kind] || "Retailer";
   }
   function loadLeaflet() {
     if (window.L && window.L.map) return Promise.resolve(window.L);
@@ -280,7 +359,14 @@ function renderLocator() {
     }, () => { status.textContent = "Location permission was not granted. Search by city or state instead."; });
   });
   search.addEventListener("input", draw);
+  productFilter.addEventListener("change", draw);
   stateFilter.addEventListener("change", draw);
+  productRail.querySelectorAll(".product-pill").forEach((button) => {
+    button.addEventListener("click", () => {
+      productFilter.value = button.dataset.product;
+      draw();
+    });
+  });
   rail.querySelectorAll(".state-pill").forEach((button) => {
     button.addEventListener("click", () => {
       stateFilter.value = button.dataset.state;
