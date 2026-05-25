@@ -44,10 +44,7 @@ function initNav() {
 function initTransitions() {
   const wipe = document.querySelector(".chocolate-wipe");
   if (!wipe || reduceMotion) return;
-  const transitionPromise = createChocolatePour(wipe).catch((error) => {
-    console.warn("Three.js chocolate transition unavailable; using static fallback.", error);
-    return null;
-  });
+  const transition = createWoolSweep(wipe);
   let changingPage = false;
   document.querySelectorAll("a[href^='/']").forEach((link) => {
     link.addEventListener("click", (event) => {
@@ -57,10 +54,7 @@ function initTransitions() {
       if (!href || nextPath === currentPath || changingPage) return;
       event.preventDefault();
       changingPage = true;
-      transitionPromise
-        .then((transition) => transition ? transition.play() : fallbackPour(wipe))
-        .catch(() => fallbackPour(wipe))
-        .finally(() => { window.location.href = href; });
+      transition.play().finally(() => { window.location.href = href; });
     });
   });
 }
@@ -72,119 +66,23 @@ function loadThree() {
   return threeModulePromise;
 }
 
-async function createChocolatePour(container) {
-  const THREE = await loadThree();
+function createWoolSweep(container) {
   container.textContent = "";
   const canvas = document.createElement("canvas");
   container.append(canvas);
-
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
-  const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  const uniforms = {
-    uTime: { value: 0 },
-    uProgress: { value: 0 },
-    uResolution: { value: new THREE.Vector2(1, 1) }
-  };
-  const material = new THREE.ShaderMaterial({
-    transparent: true,
-    depthTest: false,
-    depthWrite: false,
-    uniforms,
-    vertexShader: `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = vec4(position.xy, 0.0, 1.0);
-      }
-    `,
-    fragmentShader: `
-      precision highp float;
-      uniform float uTime;
-      uniform float uProgress;
-      uniform vec2 uResolution;
-      varying vec2 vUv;
-
-      float hash(vec2 p) {
-        p = fract(p * vec2(123.34, 456.21));
-        p += dot(p, p + 45.32);
-        return fract(p.x * p.y);
-      }
-
-      float noise(vec2 p) {
-        vec2 i = floor(p);
-        vec2 f = fract(p);
-        vec2 u = f * f * (3.0 - 2.0 * f);
-        return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
-      }
-
-      float fbm(vec2 p) {
-        float v = 0.0;
-        float a = 0.5;
-        mat2 rot = mat2(0.80, -0.60, 0.60, 0.80);
-        for (int i = 0; i < 5; i++) {
-          v += a * noise(p);
-          p = rot * p * 2.05 + 11.7;
-          a *= 0.52;
-        }
-        return v;
-      }
-
-      float drip(vec2 uv, float x, float width, float reach, float wobble) {
-        float stream = exp(-pow((uv.x - x - sin(uTime * 1.25 + x * 9.0) * wobble) / width, 2.0));
-        float taper = smoothstep(0.06, 0.84, uProgress) * reach;
-        return stream * taper;
-      }
-
-      void main() {
-        vec2 uv = gl_FragCoord.xy / uResolution.xy;
-        float aspect = uResolution.x / max(uResolution.y, 1.0);
-        vec2 flowUv = vec2(uv.x * aspect, uv.y);
-
-        float slowTime = uTime * 0.34;
-        float wideNoise = fbm(vec2(uv.x * 2.7, uv.y * 1.2 - slowTime));
-        float fineNoise = fbm(vec2(uv.x * 10.0 + slowTime, uv.y * 5.0 + uTime * 0.18));
-        float pourEase = smoothstep(0.0, 1.0, uProgress);
-        float front = 1.16 - pourEase * 1.38;
-        front += sin(uv.x * 7.5 + uTime * 0.72) * 0.024;
-        front += sin(uv.x * 17.0 - uTime * 0.46) * 0.012;
-        front += (wideNoise - 0.5) * 0.105;
-        front -= drip(uv, 0.18, 0.040, 0.23, 0.012);
-        front -= drip(uv, 0.47, 0.055, 0.34, 0.016);
-        front -= drip(uv, 0.72, 0.038, 0.22, 0.010);
-        front -= drip(uv, 0.88, 0.030, 0.17, 0.014);
-
-        float liquid = smoothstep(front - 0.035, front + 0.025, uv.y);
-        float edge = exp(-abs(uv.y - front) * 42.0) * liquid;
-
-        float body = fbm(flowUv * vec2(2.0, 6.4) + vec2(0.0, slowTime * 1.3));
-        float ribbons = sin((uv.x + body * 0.08) * 23.0 + uTime * 0.65) * 0.5 + 0.5;
-        float satin = pow(ribbons, 10.0) * 0.32;
-        float verticalSheen = pow(max(0.0, sin((uv.x * 4.2 + body * 0.52 - uTime * 0.16) * 3.14159)), 18.0) * 0.38;
-        float rimSheen = edge * (0.35 + fineNoise * 0.45);
-
-        vec3 bitter = vec3(0.065, 0.020, 0.010);
-        vec3 warm = vec3(0.300, 0.100, 0.038);
-        vec3 milk = vec3(0.560, 0.245, 0.105);
-        vec3 gloss = vec3(1.000, 0.715, 0.420);
-        vec3 color = mix(bitter, warm, 0.52 + body * 0.45);
-        color = mix(color, milk, fineNoise * 0.18);
-        color += gloss * (satin + verticalSheen + rimSheen) * 0.52;
-        color *= 0.92 + smoothstep(0.0, 1.0, uv.y) * 0.14;
-
-        float alpha = liquid * smoothstep(0.0, 0.08, pourEase);
-        gl_FragColor = vec4(color, alpha);
-      }
-    `
-  });
-  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
+  const context = canvas.getContext("2d");
+  let width = 0, height = 0, ratio = 1, curls = [];
 
   function resize() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
-    renderer.setSize(width, height, false);
-    uniforms.uResolution.value.set(width, height);
+    ratio = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.ceil(width * ratio);
+    canvas.height = Math.ceil(height * ratio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    curls = buildCurls(width, height);
   }
   resize();
   window.addEventListener("resize", resize, { passive: true });
@@ -192,19 +90,19 @@ async function createChocolatePour(container) {
   return {
     play() {
       resize();
-      container.classList.remove("fallback-pour");
       container.style.opacity = "1";
-      const duration = 1650;
+      const duration = 620;
       const start = performance.now();
       return new Promise((resolve) => {
         function render(now) {
           const raw = Math.min(1, (now - start) / duration);
-          const eased = raw < .5 ? 2.0 * raw * raw : 1.0 - Math.pow(-2.0 * raw + 2.0, 2.0) / 2.0;
-          uniforms.uTime.value = now * 0.001;
-          uniforms.uProgress.value = eased;
-          renderer.render(scene, camera);
-          if (raw < 1) requestAnimationFrame(render);
-          else resolve();
+          drawWoolFrame(context, width, height, curls, raw);
+          if (raw < 1) {
+            requestAnimationFrame(render);
+            return;
+          }
+          container.style.opacity = "0";
+          resolve();
         }
         requestAnimationFrame(render);
       });
@@ -212,9 +110,97 @@ async function createChocolatePour(container) {
   };
 }
 
-function fallbackPour(container) {
-  container.classList.add("fallback-pour");
-  return new Promise((resolve) => setTimeout(resolve, 900));
+function buildCurls(width, height) {
+  const rows = Math.max(4, Math.ceil(height / 120));
+  const cols = Math.max(9, Math.ceil(width / 118));
+  const marks = [];
+  for (let row = 0; row <= rows; row++) {
+    for (let col = 0; col <= cols; col++) {
+      const stagger = row % 2 ? 58 : 0;
+      const x = col * 118 - 88 + stagger + Math.sin(row * 2.1 + col) * 18;
+      const y = row * 102 - 68 + Math.cos(col * 1.7) * 18;
+      marks.push({
+        x,
+        y,
+        radius: 30 + ((row + col) % 4) * 7,
+        squeeze: .64 + ((row * 3 + col) % 5) * .05,
+        start: ((row + col) % 6) * .5,
+        sweep: Math.PI * (1.2 + ((row * 2 + col) % 4) * .2),
+        dir: (row + col) % 2 ? -1 : 1,
+        delay: Math.max(0, (x / Math.max(width, 1)) * .32 + (y / Math.max(height, 1)) * .10 - .08),
+        weight: 4.2 + ((row + col) % 3) * .72,
+        tone: (row + col) % 5
+      });
+    }
+  }
+  return marks;
+}
+
+function drawWoolFrame(context, width, height, curls, progress) {
+  const ease = progress < .5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+  context.clearRect(0, 0, width, height);
+  context.fillStyle = `rgba(255, 250, 240, ${0.06 + ease * .14})`;
+  context.fillRect(0, 0, width, height);
+  context.save();
+  context.translate((ease - 1) * 70, 0);
+  curls.forEach((curl) => {
+    const local = Math.max(0, Math.min(1, (progress - curl.delay) / .42));
+    if (local <= 0) return;
+    drawCurl(context, curl, local, ease);
+  });
+  drawWoolRibbon(context, width, height, ease, .18, 1);
+  drawWoolRibbon(context, width, height, ease, .52, -1);
+  drawWoolRibbon(context, width, height, ease, .84, 1);
+  context.restore();
+}
+
+function drawCurl(context, curl, progress, ease) {
+  const visible = progress < .74 ? progress / .74 : 1;
+  const fade = progress > .84 ? 1 - (progress - .84) / .16 : 1;
+  const steps = 34;
+  const points = Math.max(3, Math.floor(steps * visible));
+  const colors = ["#171513", "#2c1710", "#111111", "#4a2a1b", "#8f7154"];
+  context.beginPath();
+  for (let i = 0; i < points; i++) {
+    const t = i / (steps - 1);
+    const angle = curl.start + curl.dir * curl.sweep * t;
+    const wobble = Math.sin(t * Math.PI * 2 + curl.x * .02) * 4;
+    const x = curl.x + Math.cos(angle) * curl.radius + wobble + ease * 42;
+    const y = curl.y + Math.sin(angle) * curl.radius * curl.squeeze + Math.cos(t * Math.PI) * 5;
+    if (i === 0) context.moveTo(x, y);
+    else context.lineTo(x, y);
+  }
+  context.lineWidth = curl.weight;
+  context.lineCap = "round";
+  context.lineJoin = "round";
+  context.strokeStyle = colors[curl.tone];
+  context.globalAlpha = Math.max(0, fade) * .98;
+  context.stroke();
+  context.globalAlpha = 1;
+}
+
+function drawWoolRibbon(context, width, height, progress, band, direction) {
+  const y = height * band + (progress - .5) * 92 * direction;
+  const reveal = Math.min(width + 140, progress * (width + 360));
+  context.beginPath();
+  context.moveTo(-70, y);
+  for (let x = -70; x <= reveal; x += 86) {
+    const midX = x + 42;
+    const wave = Math.sin(x * .021 + progress * 5.5 + band * 8) * 28;
+    const endWave = Math.sin((x + 86) * .021 + progress * 5.5 + band * 8) * 28;
+    context.quadraticCurveTo(midX, y + wave * direction, x + 86, y + endWave * direction);
+    const curlX = x + 42;
+    const curlY = y + wave * .58 * direction;
+    const radius = 18 + Math.sin(x * .03 + band) * 4;
+    context.moveTo(curlX + radius, curlY);
+    context.arc(curlX, curlY, radius, 0, Math.PI * 1.35 * direction, direction < 0);
+    context.moveTo(x + 86, y + endWave * direction);
+  }
+  context.strokeStyle = "rgba(23, 21, 19, .46)";
+  context.lineWidth = 3.2;
+  context.lineCap = "round";
+  context.lineJoin = "round";
+  context.stroke();
 }
 
 function initMascotEyes() {

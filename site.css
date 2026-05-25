@@ -74,19 +74,12 @@ h3 { font-size: 1.22rem; margin-bottom: 8px; }
   inset: 0;
   z-index: 80;
   opacity: 0;
-  background: transparent;
+  background: rgba(255, 250, 240, .08);
   overflow: hidden;
   pointer-events: none;
-  transition: opacity .18s ease;
+  transition: opacity .12s ease;
 }
 .chocolate-wipe canvas { width: 100%; height: 100%; display: block; }
-.chocolate-wipe.fallback-pour {
-  opacity: 1;
-  background:
-    radial-gradient(ellipse at 24% 18%, rgba(255,236,190,.28), transparent 18%),
-    radial-gradient(ellipse at 78% 32%, rgba(255,218,158,.18), transparent 20%),
-    linear-gradient(180deg, #160704, #3d160a 46%, #160704);
-}
 
 .site-header {
   position: fixed;
