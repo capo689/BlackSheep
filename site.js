@@ -111,53 +111,72 @@ function createWoolSweep(container) {
 }
 
 function buildCurls(width, height) {
-  const rows = Math.max(4, Math.ceil(height / 120));
-  const cols = Math.max(9, Math.ceil(width / 118));
+  const count = Math.max(115, Math.ceil(width * height / 7600));
+  const ribbonCount = Math.max(18, Math.ceil(width / 64));
   const marks = [];
-  for (let row = 0; row <= rows; row++) {
-    for (let col = 0; col <= cols; col++) {
-      const stagger = row % 2 ? 58 : 0;
-      const x = col * 118 - 88 + stagger + Math.sin(row * 2.1 + col) * 18;
-      const y = row * 102 - 68 + Math.cos(col * 1.7) * 18;
-      marks.push({
-        x,
-        y,
-        radius: 30 + ((row + col) % 4) * 7,
-        squeeze: .64 + ((row * 3 + col) % 5) * .05,
-        start: ((row + col) % 6) * .5,
-        sweep: Math.PI * (1.2 + ((row * 2 + col) % 4) * .2),
-        dir: (row + col) % 2 ? -1 : 1,
-        delay: Math.max(0, (x / Math.max(width, 1)) * .32 + (y / Math.max(height, 1)) * .10 - .08),
-        weight: 4.2 + ((row + col) % 3) * .72,
-        tone: (row + col) % 5
-      });
-    }
+  for (let i = 0; i < count; i++) {
+    const a = randomUnit(i, 1);
+    const b = randomUnit(i, 2);
+    const c = randomUnit(i, 3);
+    const d = randomUnit(i, 4);
+    const x = -80 + a * (width + 160);
+    const y = -70 + b * (height + 140);
+    marks.push({
+      x,
+      y,
+      radius: 14 + c * 34,
+      squeeze: .48 + randomUnit(i, 5) * .52,
+      start: randomUnit(i, 6) * Math.PI * 2,
+      sweep: Math.PI * (.62 + randomUnit(i, 7) * 1.62),
+      dir: randomUnit(i, 8) > .5 ? 1 : -1,
+      delay: Math.max(0, (x / Math.max(width, 1)) * .22 + randomUnit(i, 9) * .28 - .10),
+      weight: 1.7 + randomUnit(i, 10) * 3.7,
+      tone: Math.floor(randomUnit(i, 11) * 5),
+      tilt: (d - .5) * .9,
+      drift: (randomUnit(i, 12) - .5) * 110
+    });
+  }
+  for (let i = 0; i < ribbonCount; i++) {
+    const band = randomUnit(i, 21);
+    marks.push({
+      ribbon: true,
+      x: -120 + i * (width + 240) / ribbonCount + (randomUnit(i, 22) - .5) * 80,
+      y: height * band,
+      length: 80 + randomUnit(i, 23) * 180,
+      amp: 14 + randomUnit(i, 24) * 32,
+      delay: randomUnit(i, 25) * .32,
+      weight: 2.4 + randomUnit(i, 26) * 2.8,
+      tone: Math.floor(randomUnit(i, 27) * 5),
+      dir: randomUnit(i, 28) > .5 ? 1 : -1
+    });
   }
   return marks;
+}
+
+function randomUnit(index, salt) {
+  const value = Math.sin(index * 127.1 + salt * 311.7) * 43758.5453123;
+  return value - Math.floor(value);
 }
 
 function drawWoolFrame(context, width, height, curls, progress) {
   const ease = progress < .5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
   context.clearRect(0, 0, width, height);
-  context.fillStyle = `rgba(255, 250, 240, ${0.06 + ease * .14})`;
+  context.fillStyle = `rgba(255, 250, 240, ${0.03 + ease * .12})`;
   context.fillRect(0, 0, width, height);
   context.save();
-  context.translate((ease - 1) * 70, 0);
   curls.forEach((curl) => {
-    const local = Math.max(0, Math.min(1, (progress - curl.delay) / .42));
+    const local = Math.max(0, Math.min(1, (progress - curl.delay) / .38));
     if (local <= 0) return;
-    drawCurl(context, curl, local, ease);
+    if (curl.ribbon) drawShortRibbon(context, curl, local, ease);
+    else drawCurl(context, curl, local, ease);
   });
-  drawWoolRibbon(context, width, height, ease, .18, 1);
-  drawWoolRibbon(context, width, height, ease, .52, -1);
-  drawWoolRibbon(context, width, height, ease, .84, 1);
   context.restore();
 }
 
 function drawCurl(context, curl, progress, ease) {
   const visible = progress < .74 ? progress / .74 : 1;
   const fade = progress > .84 ? 1 - (progress - .84) / .16 : 1;
-  const steps = 34;
+  const steps = 24;
   const points = Math.max(3, Math.floor(steps * visible));
   const colors = ["#171513", "#2c1710", "#111111", "#4a2a1b", "#8f7154"];
   context.beginPath();
@@ -165,8 +184,10 @@ function drawCurl(context, curl, progress, ease) {
     const t = i / (steps - 1);
     const angle = curl.start + curl.dir * curl.sweep * t;
     const wobble = Math.sin(t * Math.PI * 2 + curl.x * .02) * 4;
-    const x = curl.x + Math.cos(angle) * curl.radius + wobble + ease * 42;
-    const y = curl.y + Math.sin(angle) * curl.radius * curl.squeeze + Math.cos(t * Math.PI) * 5;
+    const localX = Math.cos(angle) * curl.radius + wobble;
+    const localY = Math.sin(angle) * curl.radius * curl.squeeze + Math.cos(t * Math.PI) * 5;
+    const x = curl.x + localX * Math.cos(curl.tilt) - localY * Math.sin(curl.tilt) + ease * curl.drift;
+    const y = curl.y + localX * Math.sin(curl.tilt) + localY * Math.cos(curl.tilt);
     if (i === 0) context.moveTo(x, y);
     else context.lineTo(x, y);
   }
@@ -179,28 +200,33 @@ function drawCurl(context, curl, progress, ease) {
   context.globalAlpha = 1;
 }
 
-function drawWoolRibbon(context, width, height, progress, band, direction) {
-  const y = height * band + (progress - .5) * 92 * direction;
-  const reveal = Math.min(width + 140, progress * (width + 360));
+function drawShortRibbon(context, curl, progress, ease) {
+  const visible = progress < .8 ? progress / .8 : 1;
+  const fade = progress > .86 ? 1 - (progress - .86) / .14 : 1;
+  const colors = ["#171513", "#2c1710", "#111111", "#4a2a1b", "#8f7154"];
+  const length = curl.length * visible;
+  const startX = curl.x + ease * 62 * curl.dir;
   context.beginPath();
-  context.moveTo(-70, y);
-  for (let x = -70; x <= reveal; x += 86) {
-    const midX = x + 42;
-    const wave = Math.sin(x * .021 + progress * 5.5 + band * 8) * 28;
-    const endWave = Math.sin((x + 86) * .021 + progress * 5.5 + band * 8) * 28;
-    context.quadraticCurveTo(midX, y + wave * direction, x + 86, y + endWave * direction);
-    const curlX = x + 42;
-    const curlY = y + wave * .58 * direction;
-    const radius = 18 + Math.sin(x * .03 + band) * 4;
-    context.moveTo(curlX + radius, curlY);
-    context.arc(curlX, curlY, radius, 0, Math.PI * 1.35 * direction, direction < 0);
-    context.moveTo(x + 86, y + endWave * direction);
+  context.moveTo(startX, curl.y);
+  for (let x = 0; x <= length; x += 56) {
+    const wave = Math.sin((x + curl.x) * .038) * curl.amp;
+    context.quadraticCurveTo(startX + x + 28, curl.y + wave * curl.dir, startX + x + 56, curl.y - wave * .45 * curl.dir);
+    if (x % 112 === 0) {
+      const curlX = startX + x + 30;
+      const curlY = curl.y + wave * .4 * curl.dir;
+      const radius = 10 + (curl.amp % 12);
+      context.moveTo(curlX + radius, curlY);
+      context.arc(curlX, curlY, radius, 0, Math.PI * 1.45 * curl.dir, curl.dir < 0);
+      context.moveTo(startX + x + 56, curl.y - wave * .45 * curl.dir);
+    }
   }
-  context.strokeStyle = "rgba(23, 21, 19, .46)";
-  context.lineWidth = 3.2;
+  context.strokeStyle = colors[curl.tone];
+  context.lineWidth = curl.weight;
   context.lineCap = "round";
   context.lineJoin = "round";
+  context.globalAlpha = Math.max(0, fade) * .72;
   context.stroke();
+  context.globalAlpha = 1;
 }
 
 function initMascotEyes() {
