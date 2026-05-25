@@ -226,8 +226,8 @@ function initMascotEyes() {
     const centerY = rect.top + rect.height * .44;
     const x = Math.max(-1, Math.min(1, (event.clientX - centerX) / (rect.width * .42)));
     const y = Math.max(-1, Math.min(1, (event.clientY - centerY) / (rect.height * .42)));
-    mascot.style.setProperty("--eye-x", `${x * 5}px`);
-    mascot.style.setProperty("--eye-y", `${y * 4}px`);
+    mascot.style.setProperty("--eye-x", `${x * 2.6}px`);
+    mascot.style.setProperty("--eye-y", `${y * 2.2}px`);
     mascot.style.setProperty("--mascot-tilt", `${x * 2.2}deg`);
   };
   window.addEventListener("pointermove", move, { passive: true });
