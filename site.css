@@ -248,7 +248,7 @@ h3 { font-size: 1.22rem; margin-bottom: 8px; }
 .store-card:hover, .store-card.active { background: rgba(194,160,128,.13); }
 .store-icon { width: 72px; aspect-ratio: 1; border-radius: 50%; background: white url("/assets/live/logo-mascot.png") center / 90% auto no-repeat; border: 1px solid var(--line); }
 .store-icon.drinks { background-color: #fff4d8; box-shadow: inset 0 0 0 5px rgba(143,113,84,.15); }
-.store-icon.bulk { background-color: #171513; border-color: #171513; box-shadow: 0 0 0 6px rgba(194,160,128,.16); }
+.store-icon.bulk { background-color: var(--cream); box-shadow: inset 0 0 0 5px rgba(17,17,17,.08), 0 0 0 6px rgba(194,160,128,.16); }
 .store-card p { margin-bottom: 4px; color: var(--muted); }
 .store-card .tag { color: var(--tan-dark); font-family: var(--font-display); font-size: .72rem; text-transform: uppercase; }
 .product-kind { display: inline-flex; margin: 6px 8px 0 0; padding: 5px 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-family: var(--font-display); font-size: .68rem; text-transform: uppercase; }
