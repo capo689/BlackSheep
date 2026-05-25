@@ -71,44 +71,21 @@ h3 { font-size: 1.22rem; margin-bottom: 8px; }
 }
 .chocolate-wipe {
   position: fixed;
-  inset: 0 -12vw auto;
-  height: 126vh;
+  inset: 0;
   z-index: 80;
-  --drip-a: 20vh;
-  --drip-b: 28vh;
-  --drip-c: 15vh;
-  --drip-d: 24vh;
   opacity: 0;
-  transform: translateY(-112%);
-  background:
-    radial-gradient(circle at 23% calc(100% - var(--drip-a)), rgba(255,246,220,.2), transparent 7%),
-    radial-gradient(circle at 72% calc(100% - var(--drip-c)), rgba(255,246,220,.14), transparent 6%),
-    linear-gradient(180deg, #0a0402 0%, #2a0e07 38%, #4b1e0f 72%, #1b0904 100%);
-  clip-path: polygon(0 0, 100% 0, 100% 78%, 96% 83%, 91% 80%, 86% 88%, 81% 82%, 75% 86%, 69% 80%, 63% 85%, 57% 79%, 51% 84%, 45% 81%, 39% 89%, 33% 80%, 27% 85%, 20% 79%, 14% 84%, 8% 80%, 0 84%);
-  box-shadow: 0 26px 90px rgba(17, 7, 2, .48);
+  background: transparent;
+  overflow: hidden;
   pointer-events: none;
+  transition: opacity .18s ease;
 }
-.chocolate-wipe::before,
-.chocolate-wipe::after {
-  content: "";
-  position: absolute;
-  bottom: -8vh;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #4f2111, #120502);
-  filter: drop-shadow(0 18px 24px rgba(17,7,2,.36));
-}
-.chocolate-wipe::before {
-  left: 18%;
-  width: 9vw;
-  min-width: 82px;
-  height: var(--drip-a);
-}
-.chocolate-wipe::after {
-  right: 28%;
-  width: 7vw;
-  min-width: 68px;
-  height: var(--drip-c);
-  box-shadow: 28vw calc(-1 * var(--drip-b)) 0 -18px #321207, -24vw calc(-1 * var(--drip-d)) 0 -12px #421a0d;
+.chocolate-wipe canvas { width: 100%; height: 100%; display: block; }
+.chocolate-wipe.fallback-pour {
+  opacity: 1;
+  background:
+    radial-gradient(ellipse at 24% 18%, rgba(255,236,190,.28), transparent 18%),
+    radial-gradient(ellipse at 78% 32%, rgba(255,218,158,.18), transparent 20%),
+    linear-gradient(180deg, #160704, #3d160a 46%, #160704);
 }
 
 .site-header {

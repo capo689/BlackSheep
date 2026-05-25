@@ -1,4 +1,5 @@
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let threeModulePromise;
 
 const tastingNotes = [
   { country: "Colombia", flag: "🇨🇴", notes: ["almond butter", "nutmeg"], accent: "#c98b44", photo: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80", ingredients: ["almond", "nutmeg", "cacao"] },
@@ -42,19 +43,178 @@ function initNav() {
 
 function initTransitions() {
   const wipe = document.querySelector(".chocolate-wipe");
-  if (!wipe || !window.gsap || reduceMotion) return;
+  if (!wipe || reduceMotion) return;
+  const transitionPromise = createChocolatePour(wipe).catch((error) => {
+    console.warn("Three.js chocolate transition unavailable; using static fallback.", error);
+    return null;
+  });
+  let changingPage = false;
   document.querySelectorAll("a[href^='/']").forEach((link) => {
     link.addEventListener("click", (event) => {
       const href = link.getAttribute("href");
-      if (!href || href === window.location.pathname) return;
+      const currentPath = window.location.pathname.replace(/\/$/, "");
+      const nextPath = new URL(href, window.location.origin).pathname.replace(/\/$/, "");
+      if (!href || nextPath === currentPath || changingPage) return;
       event.preventDefault();
-      window.gsap.timeline({ onComplete: () => { window.location.href = href; } })
-        .set(wipe, { clearProps: "transform", y: "-132vh", opacity: 1, "--drip-a": "18vh", "--drip-b": "28vh", "--drip-c": "14vh", "--drip-d": "24vh" })
-        .to(wipe, { y: "-12vh", duration: 1.06, ease: "power2.in" }, 0)
-        .to(wipe, { "--drip-a": "42vh", "--drip-b": "23vh", "--drip-c": "52vh", "--drip-d": "34vh", duration: 1.06, ease: "sine.inOut" }, 0)
-        .to(wipe, { y: 0, duration: .28, ease: "power1.out" });
+      changingPage = true;
+      transitionPromise
+        .then((transition) => transition ? transition.play() : fallbackPour(wipe))
+        .catch(() => fallbackPour(wipe))
+        .finally(() => { window.location.href = href; });
     });
   });
+}
+
+function loadThree() {
+  if (!threeModulePromise) {
+    threeModulePromise = import("https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js");
+  }
+  return threeModulePromise;
+}
+
+async function createChocolatePour(container) {
+  const THREE = await loadThree();
+  container.textContent = "";
+  const canvas = document.createElement("canvas");
+  container.append(canvas);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const uniforms = {
+    uTime: { value: 0 },
+    uProgress: { value: 0 },
+    uResolution: { value: new THREE.Vector2(1, 1) }
+  };
+  const material = new THREE.ShaderMaterial({
+    transparent: true,
+    depthTest: false,
+    depthWrite: false,
+    uniforms,
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position.xy, 0.0, 1.0);
+      }
+    `,
+    fragmentShader: `
+      precision highp float;
+      uniform float uTime;
+      uniform float uProgress;
+      uniform vec2 uResolution;
+      varying vec2 vUv;
+
+      float hash(vec2 p) {
+        p = fract(p * vec2(123.34, 456.21));
+        p += dot(p, p + 45.32);
+        return fract(p.x * p.y);
+      }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+      }
+
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.5;
+        mat2 rot = mat2(0.80, -0.60, 0.60, 0.80);
+        for (int i = 0; i < 5; i++) {
+          v += a * noise(p);
+          p = rot * p * 2.05 + 11.7;
+          a *= 0.52;
+        }
+        return v;
+      }
+
+      float drip(vec2 uv, float x, float width, float reach, float wobble) {
+        float stream = exp(-pow((uv.x - x - sin(uTime * 1.25 + x * 9.0) * wobble) / width, 2.0));
+        float taper = smoothstep(0.06, 0.84, uProgress) * reach;
+        return stream * taper;
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / uResolution.xy;
+        float aspect = uResolution.x / max(uResolution.y, 1.0);
+        vec2 flowUv = vec2(uv.x * aspect, uv.y);
+
+        float slowTime = uTime * 0.34;
+        float wideNoise = fbm(vec2(uv.x * 2.7, uv.y * 1.2 - slowTime));
+        float fineNoise = fbm(vec2(uv.x * 10.0 + slowTime, uv.y * 5.0 + uTime * 0.18));
+        float pourEase = smoothstep(0.0, 1.0, uProgress);
+        float front = 1.16 - pourEase * 1.38;
+        front += sin(uv.x * 7.5 + uTime * 0.72) * 0.024;
+        front += sin(uv.x * 17.0 - uTime * 0.46) * 0.012;
+        front += (wideNoise - 0.5) * 0.105;
+        front -= drip(uv, 0.18, 0.040, 0.23, 0.012);
+        front -= drip(uv, 0.47, 0.055, 0.34, 0.016);
+        front -= drip(uv, 0.72, 0.038, 0.22, 0.010);
+        front -= drip(uv, 0.88, 0.030, 0.17, 0.014);
+
+        float liquid = smoothstep(front - 0.035, front + 0.025, uv.y);
+        float edge = exp(-abs(uv.y - front) * 42.0) * liquid;
+
+        float body = fbm(flowUv * vec2(2.0, 6.4) + vec2(0.0, slowTime * 1.3));
+        float ribbons = sin((uv.x + body * 0.08) * 23.0 + uTime * 0.65) * 0.5 + 0.5;
+        float satin = pow(ribbons, 10.0) * 0.32;
+        float verticalSheen = pow(max(0.0, sin((uv.x * 4.2 + body * 0.52 - uTime * 0.16) * 3.14159)), 18.0) * 0.38;
+        float rimSheen = edge * (0.35 + fineNoise * 0.45);
+
+        vec3 bitter = vec3(0.065, 0.020, 0.010);
+        vec3 warm = vec3(0.300, 0.100, 0.038);
+        vec3 milk = vec3(0.560, 0.245, 0.105);
+        vec3 gloss = vec3(1.000, 0.715, 0.420);
+        vec3 color = mix(bitter, warm, 0.52 + body * 0.45);
+        color = mix(color, milk, fineNoise * 0.18);
+        color += gloss * (satin + verticalSheen + rimSheen) * 0.52;
+        color *= 0.92 + smoothstep(0.0, 1.0, uv.y) * 0.14;
+
+        float alpha = liquid * smoothstep(0.0, 0.08, pourEase);
+        gl_FragColor = vec4(color, alpha);
+      }
+    `
+  });
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
+
+  function resize() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setSize(width, height, false);
+    uniforms.uResolution.value.set(width, height);
+  }
+  resize();
+  window.addEventListener("resize", resize, { passive: true });
+
+  return {
+    play() {
+      resize();
+      container.classList.remove("fallback-pour");
+      container.style.opacity = "1";
+      const duration = 1650;
+      const start = performance.now();
+      return new Promise((resolve) => {
+        function render(now) {
+          const raw = Math.min(1, (now - start) / duration);
+          const eased = raw < .5 ? 2.0 * raw * raw : 1.0 - Math.pow(-2.0 * raw + 2.0, 2.0) / 2.0;
+          uniforms.uTime.value = now * 0.001;
+          uniforms.uProgress.value = eased;
+          renderer.render(scene, camera);
+          if (raw < 1) requestAnimationFrame(render);
+          else resolve();
+        }
+        requestAnimationFrame(render);
+      });
+    }
+  };
+}
+
+function fallbackPour(container) {
+  container.classList.add("fallback-pour");
+  return new Promise((resolve) => setTimeout(resolve, 900));
 }
 
 function initMascotEyes() {
@@ -384,7 +544,7 @@ async function initThreeHero() {
   const canvas = document.querySelector("#hero-webgl");
   if (!canvas) return;
   try {
-    const THREE = await import("https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js");
+    const THREE = await loadThree();
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, .1, 100);
