@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bend, Oregon Live Dashboard</title>
+    <meta name="description" content="Live local Bend, Oregon data dashboard with activity, weather, traffic, food spots, events, businesses, permits, public safety, air quality, and source feeds.">
+    <meta property="og:title" content="Bend, Oregon Live Dashboard">
+    <meta property="og:description" content="Real-time local data for Bend, Oregon.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/bend/bend.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+      <a class="brand" href="/bend/" aria-label="Bend Oregon dashboard home">
+        <span class="mountain-mark" aria-hidden="true"></span>
+        <span class="brand-word">BEND</span>
+        <span class="brand-sub">OREGON</span>
+      </a>
+      <nav class="main-nav" aria-label="Dashboard sections">
+        <a class="active" href="#main">Live Dashboard</a>
+        <a href="#busy">Explore</a>
+        <a href="#events">Events</a>
+        <a href="#food">Businesses</a>
+        <a href="#reports">Resources</a>
+        <a href="#sources">About</a>
+      </nav>
+      <div class="live-badge"><span></span>Live</div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <h1>Bend, Oregon</h1>
+          <p class="tagline">Live local data. Right now.</p>
+          <p class="subline">Real-time activity, weather, traffic, food, events, public records, and local insights for the Bend community.</p>
+        </div>
+      </section>
+
+      <section class="metric-strip" aria-label="Top live metrics">
+        <article class="metric-card overall">
+          <span class="metric-icon">↯</span>
+          <p>Overall Activity</p>
+          <strong data-field="overall-activity">--</strong>
+          <small data-field="overall-label">Loading</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">●</span>
+          <p>Busiest Spot</p>
+          <strong data-field="busiest-spot">--</strong>
+          <small data-field="busiest-label">Google Popular Times</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">▣</span>
+          <p>Road Work</p>
+          <strong data-field="traffic-level">--</strong>
+          <small data-field="traffic-detail">ODOT / City / County</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">☁</span>
+          <p>Weather</p>
+          <strong data-field="weather-temp">--</strong>
+          <small data-field="weather-short">NOAA</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">▦</span>
+          <p>Event Load</p>
+          <strong data-field="event-load">--</strong>
+          <small data-field="event-detail">Upcoming events</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">Ⓟ</span>
+          <p>Parking Pressure</p>
+          <strong>No feed</strong>
+          <small>No public parking feed connected</small>
+        </article>
+      </section>
+
+      <section class="panel wide" id="busy">
+        <div class="section-heading">
+          <div>
+            <h2>What's Busy Now</h2>
+            <p>Real-time activity across Bend from the Google Popular Times feed.</p>
+          </div>
+        </div>
+        <div class="busy-layout">
+          <article class="subpanel chart-panel">
+            <h3>Live Activity Over Time</h3>
+            <div class="line-chart" data-chart="activity"></div>
+          </article>
+          <article class="subpanel">
+            <h3>Top Busy Spots</h3>
+            <div class="rank-list" data-list="busy-ranks"></div>
+          </article>
+          <article class="subpanel">
+            <h3>Busiest Times Today</h3>
+            <div class="bar-chart" data-chart="hours"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="right-now">
+        <div class="section-heading">
+          <div>
+            <h2>Right Now in Bend</h2>
+            <p>Essential live updates for the day.</p>
+          </div>
+        </div>
+        <div class="info-grid">
+          <article class="mini-card">
+            <h3>Weather</h3>
+            <strong data-field="weather-temp-large">--</strong>
+            <p data-field="weather-summary">NOAA forecast loading</p>
+            <div class="mini-split"><span data-field="weather-high-low">--</span><span data-field="weather-wind">--</span></div>
+          </article>
+          <article class="mini-card">
+            <h3>Trail & Outdoors</h3>
+            <strong data-field="trail-status">--</strong>
+            <p data-field="trail-summary">Trail feed loading</p>
+            <a data-link="trail-report" href="#sources">View Trail Report</a>
+          </article>
+          <article class="mini-card">
+            <h3>Driving Times</h3>
+            <strong data-field="road-count">--</strong>
+            <p data-field="road-summary">Active road items</p>
+            <a href="#reports">View Traffic Feed</a>
+          </article>
+          <article class="mini-card">
+            <h3>River Levels</h3>
+            <strong data-field="river-level">--</strong>
+            <p data-field="river-summary">USGS NWIS loading</p>
+            <a data-link="river-report" href="#sources">View River Report</a>
+          </article>
+          <article class="mini-card">
+            <h3>Air Quality</h3>
+            <strong data-field="aqi-status">--</strong>
+            <p data-field="aqi-summary">AQI feed loading</p>
+            <a href="#sources">View AQI Map</a>
+          </article>
+          <article class="mini-card">
+            <h3>Sunset</h3>
+            <strong data-field="sunset">--</strong>
+            <p data-field="sunrise">Sunrise --</p>
+            <div class="mini-split"><span data-field="daylight">Daylight --</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="dashboard-row" id="food">
+        <article class="panel main-col">
+          <div class="section-heading">
+            <div>
+              <h2>Food, Drink & Local Spots</h2>
+              <p>Popular right now, sorted by live and predicted crowd data.</p>
+            </div>
+          </div>
+          <div class="tabs" aria-label="Food spot categories">
+            <button class="active" type="button" data-place-filter="food-drink">Restaurants</button>
+            <button type="button" data-place-filter="shopping">Shopping</button>
+            <button type="button" data-place-filter="outdoors">Outdoors</button>
+            <button type="button" data-place-filter="all">All</button>
+          </div>
+          <div class="spot-list" data-list="food-spots"></div>
+        </article>
+
+        <aside class="side-grid">
+          <article class="panel compact">
+            <h3>Fuel Prices</h3>
+            <strong class="big-stat" data-field="fuel-low">--</strong>
+            <p data-field="fuel-range">GasBuddy manual station feed</p>
+            <div class="small-list" data-list="fuel"></div>
+          </article>
+          <article class="panel compact">
+            <h3>Parking</h3>
+            <strong class="big-stat">No feed</strong>
+            <p>No public parking pressure feed connected.</p>
+          </article>
+          <article class="panel compact">
+            <h3>Permits & Projects</h3>
+            <div class="number-pair"><strong data-field="permit-count">--</strong><span>Permits</span><strong data-field="project-value">--</strong><span>Top value</span></div>
+            <div class="small-list" data-list="permits-mini"></div>
+          </article>
+          <article class="panel compact">
+            <h3>Public Records</h3>
+            <div class="number-pair"><strong data-field="call-count">--</strong><span>Calls</span><strong data-field="inspection-count">--</strong><span>Inspection records</span></div>
+            <div class="small-list" data-list="records"></div>
+          </article>
+        </aside>
+      </section>
+
+      <section class="panel" id="events">
+        <div class="section-heading">
+          <div>
+            <h2>Events & Community</h2>
+            <p>Events, openings, and business activity from live feeds.</p>
+          </div>
+        </div>
+        <div class="quad-grid">
+          <article class="subpanel"><h3>Tonight in Bend</h3><div class="event-list" data-list="tonight"></div></article>
+          <article class="subpanel"><h3>Upcoming Events</h3><div class="event-list" data-list="events"></div></article>
+          <article class="subpanel"><h3>Permits & Projects</h3><div class="event-list" data-list="permits"></div></article>
+          <article class="subpanel"><h3>New Businesses</h3><div class="event-list" data-list="openings"></div></article>
+        </div>
+      </section>
+
+      <section class="panel" id="reports">
+        <div class="section-heading">
+          <div>
+            <h2>Local Reports & Updates</h2>
+            <p>Current items from public feeds.</p>
+          </div>
+        </div>
+        <div class="report-grid">
+          <article class="subpanel"><h3>Road & Traffic</h3><ul data-list="roads"></ul></article>
+          <article class="subpanel"><h3>Public Safety</h3><ul data-list="safety"></ul></article>
+          <article class="subpanel"><h3>Parks & Recreation</h3><ul data-list="parks"></ul></article>
+          <article class="subpanel"><h3>City Services</h3><ul data-list="city"></ul></article>
+          <article class="subpanel"><h3>Weather Outlook</h3><div class="forecast-row" data-list="forecast"></div></article>
+        </div>
+      </section>
+
+      <section class="panel" id="sources">
+        <div class="section-heading">
+          <div>
+            <h2>Data Sources</h2>
+            <p>Live data is pulled from public APIs and attributed local/public feeds.</p>
+          </div>
+        </div>
+        <div class="source-grid" data-list="sources"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>BEND · LIVE LOCAL DATA</span>
+      <span>Data is refreshed by source feeds.</span>
+    </footer>
+
+    <script src="/bend/bend.js" type="module"></script>
+  </body>
+</html>
