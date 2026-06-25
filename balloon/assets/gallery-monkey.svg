@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" role="img" aria-labelledby="title desc">
+  <title id="title">Monkey balloon on vine</title>
+  <desc id="desc">FPO illustration of an orange monkey balloon hanging from a green vine.</desc>
+  <defs>
+    <radialGradient id="bg" cx="60%" cy="20%" r="92%"><stop offset="0" stop-color="#fff7df"/><stop offset="1" stop-color="#d8fbf8"/></radialGradient>
+    <linearGradient id="orange" x1="0" x2="1"><stop offset="0" stop-color="#ffbd45"/><stop offset=".5" stop-color="#ec7412"/><stop offset="1" stop-color="#a83608"/></linearGradient>
+    <linearGradient id="vine" x1="0" x2="1"><stop offset="0" stop-color="#7cc84a"/><stop offset="1" stop-color="#237734"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#4e2107" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="900" height="720" fill="url(#bg)"/>
+  <path d="M101 178c160-100 317-77 443 22 74 58 151 72 256 25" fill="none" stroke="url(#vine)" stroke-width="30" stroke-linecap="round"/>
+  <g fill="url(#vine)" stroke="#237734" stroke-width="6">
+    <ellipse cx="184" cy="141" rx="54" ry="19" transform="rotate(-27 184 141)"/>
+    <ellipse cx="234" cy="172" rx="54" ry="19" transform="rotate(24 234 172)"/>
+    <ellipse cx="698" cy="247" rx="58" ry="20" transform="rotate(-20 698 247)"/>
+  </g>
+  <g filter="url(#shadow)" stroke="#8a3b08" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="472" cy="335" rx="61" ry="124" fill="url(#orange)"/>
+    <ellipse cx="407" cy="298" rx="64" ry="50" fill="url(#orange)"/>
+    <ellipse cx="535" cy="301" rx="64" ry="50" fill="url(#orange)"/>
+    <circle cx="470" cy="252" r="75" fill="url(#orange)"/>
+    <ellipse cx="470" cy="277" rx="47" ry="34" fill="#ffd18d"/>
+    <ellipse cx="374" cy="414" rx="45" ry="100" transform="rotate(28 374 414)" fill="url(#orange)"/>
+    <ellipse cx="566" cy="414" rx="45" ry="100" transform="rotate(-28 566 414)" fill="url(#orange)"/>
+    <path d="M530 439c98 42 84 145-18 131" fill="none" stroke="#c85b0c" stroke-width="40"/>
+  </g>
+  <g fill="#1d2440"><circle cx="445" cy="244" r="10"/><circle cx="496" cy="244" r="10"/></g>
+  <text x="64" y="96" fill="#09245a" font-family="Verdana, sans-serif" font-size="42" font-weight="800">Monkey Business</text>
+</svg>
