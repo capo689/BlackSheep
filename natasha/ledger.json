@@ -1,0 +1,55 @@
+{
+  "_comment": "Permanent dedup memory for Natasha Cagle's weekday job screen. Independent of Ace's ledger. Any job whose key OR any url appears here has ALREADY been posted to her board and must NEVER appear again. Key = lowercased normalized company + ' | ' + normalized title (NO location). Append new entries each run; never delete.",
+  "updated": "2026-06-26",
+  "entries": [
+    {
+      "key": "hims & hers | director talent acquisition operations & enablement",
+      "company": "Hims & Hers",
+      "title": "Director, Talent Acquisition Operations & Enablement",
+      "first_seen": "2026-06-26",
+      "urls": ["https://www.hims.com/careers-professionals"]
+    },
+    {
+      "key": "flex | recruiting lead",
+      "company": "Flex",
+      "title": "Recruiting Lead",
+      "first_seen": "2026-06-26",
+      "urls": ["https://jobs.lever.co/flex/aedc2922-4413-4da1-b0e6-ff302d2f9fd5"]
+    },
+    {
+      "key": "summit health | senior human resources business partner",
+      "company": "Summit Health (VillageMD)",
+      "title": "Senior Human Resources Business Partner",
+      "first_seen": "2026-06-26",
+      "urls": ["https://www.indeed.com/viewjob?jk=7b88f9f76520db0b"]
+    },
+    {
+      "key": "soci | hr business partner",
+      "company": "SOCi",
+      "title": "HR Business Partner",
+      "first_seen": "2026-06-26",
+      "urls": ["https://job-boards.greenhouse.io/soci/jobs/6099107004"]
+    },
+    {
+      "key": "tinuiti | people business partner lead",
+      "company": "Tinuiti",
+      "title": "People Business Partner Lead",
+      "first_seen": "2026-06-26",
+      "urls": ["https://tinuiti.wd12.myworkdayjobs.com/tinuiti/job/usa---remote/people-business-partner-lead_r26_314"]
+    },
+    {
+      "key": "ge vernova | lead talent acquisition partner advanced manufacturing",
+      "company": "GE Vernova",
+      "title": "Lead Talent Acquisition Partner, Advanced Manufacturing",
+      "first_seen": "2026-06-26",
+      "urls": ["https://www.dice.com/job-detail/a2b42af8-2160-4bab-8abf-30be8f698d91"]
+    },
+    {
+      "key": "meridianlink | senior human resources business partner",
+      "company": "MeridianLink",
+      "title": "Senior Human Resources Business Partner",
+      "first_seen": "2026-06-26",
+      "urls": ["https://www.meridianlink.com/careers"]
+    }
+  ]
+}
