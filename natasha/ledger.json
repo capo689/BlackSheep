@@ -1,6 +1,6 @@
 {
   "_comment": "Permanent dedup memory for Natasha Cagle's weekday job screen. Independent of Ace's ledger. Any job whose key OR any url appears here has ALREADY been posted to her board and must NEVER appear again. Key = lowercased normalized company + ' | ' + normalized title (NO location). Append new entries each run; never delete.",
-  "updated": "2026-06-26",
+  "updated": "2026-06-29",
   "entries": [
     {
       "key": "hims & hers | director talent acquisition operations & enablement",
@@ -50,6 +50,48 @@
       "title": "Senior Human Resources Business Partner",
       "first_seen": "2026-06-26",
       "urls": ["https://www.meridianlink.com/careers"]
+    },
+    {
+      "key": "kalepa | director of talent acquisition",
+      "company": "Kalepa",
+      "title": "Director of Talent Acquisition",
+      "first_seen": "2026-06-29",
+      "urls": ["https://job-boards.greenhouse.io/kalepa/jobs/5857099004", "https://kalepa.com/careers/director-of-talent-acquisition-usa"]
+    },
+    {
+      "key": "talnt | senior recruiting manager",
+      "company": "Talnt",
+      "title": "Senior Recruiting Manager",
+      "first_seen": "2026-06-29",
+      "urls": ["https://www.careers-page.com/talnt/job/5wvxr855"]
+    },
+    {
+      "key": "repair the world | senior director of talent acquisition",
+      "company": "Repair the World",
+      "title": "Senior Director of Talent Acquisition",
+      "first_seen": "2026-06-29",
+      "urls": ["https://jobs.remotequeer.co/jobs/senior-director-of-talent-acquisition-565414dd"]
+    },
+    {
+      "key": "precise flight | human resources manager",
+      "company": "Precise Flight",
+      "title": "Human Resources Manager",
+      "first_seen": "2026-06-29",
+      "urls": ["https://www.ziprecruiter.com/c/precise-flight/job/human-resources-manager/-in-bend,or?jid=30b7faff74d3db97"]
+    },
+    {
+      "key": "halo precision diagnostics | hr director",
+      "company": "HALO Precision Diagnostics",
+      "title": "HR Director",
+      "first_seen": "2026-06-29",
+      "urls": ["https://www.halodx.com/careers/"]
+    },
+    {
+      "key": "akiva ai | senior recruiting manager",
+      "company": "AKIVA AI",
+      "title": "Senior Recruiting Manager",
+      "first_seen": "2026-06-29",
+      "urls": ["https://www.ziprecruiter.com/jobs/remote-recruiting-manager"]
     }
   ]
 }
