@@ -1,6 +1,6 @@
 {
   "_comment": "Permanent dedup memory for Natasha Cagle's weekday job screen. Independent of Ace's ledger. Any job whose key OR any url appears here has ALREADY been posted to her board and must NEVER appear again. Key = lowercased normalized company + ' | ' + normalized title (NO location). Append new entries each run; never delete.",
-  "updated": "2026-06-29",
+  "updated": "2026-06-30",
   "entries": [
     {
       "key": "hims & hers | director talent acquisition operations & enablement",
@@ -92,6 +92,20 @@
       "title": "Senior Recruiting Manager",
       "first_seen": "2026-06-29",
       "urls": ["https://www.ziprecruiter.com/jobs/remote-recruiting-manager"]
+    },
+    {
+      "key": "southland industries | talent acquisition lead",
+      "company": "Southland Industries",
+      "title": "Talent Acquisition Lead",
+      "first_seen": "2026-06-30",
+      "urls": ["https://jobs.silkroad.com/southlandind/careers/jobs/177336", "https://to.indeed.com/aa6n8fk99b8x"]
+    },
+    {
+      "key": "caring for others | director of corporate human resources",
+      "company": "Caring for Others",
+      "title": "Director of Corporate Human Resources",
+      "first_seen": "2026-06-30",
+      "urls": ["https://www.ziprecruiter.com/job-redirect", "https://www.indeed.com/cmp/caring-for-others-3"]
     }
   ]
 }

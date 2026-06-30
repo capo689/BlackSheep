@@ -6,66 +6,82 @@
 <title>Natasha — Verified Job Tracker</title>
 <style>
   :root{
-    --bg:#0a0e1a; --card:#121a2e; --border:#1f2b45; --txt:#e6ecf7; --muted:#8b97b3;
-    --blue:#3b82f6; --blue2:#2563eb; --green:#22c55e; --amber:#f59e0b; --red:#ef4444;
+    --bg:#0a0e1a; --card:#121a2e; --border:#1f2a44; --muted:#8a97b3;
+    --text:#e8edf7; --blue:#4f8cff; --blue2:#2f6fe0; --green:#27c093;
+    --amber:#e8b04b; --red:#e55b6a;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
-  .wrap{max-width:1400px;margin:0 auto;padding:28px 22px 60px}
-  h1{font-size:30px;margin:0 0 6px;letter-spacing:-0.5px}
-  .sub{color:var(--muted);font-size:14px;margin:0 0 16px;max-width:760px}
-  .pill{display:inline-block;background:rgba(34,197,94,.14);color:var(--green);border:1px solid rgba(34,197,94,.4);
-        padding:5px 12px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:12px}
-  .notice{color:var(--muted);font-size:12.5px;margin:0 0 18px;padding:10px 14px;background:#0e1426;border:1px solid var(--border);border-radius:10px}
-  .archive{font-size:12.5px;color:var(--muted);margin:0 0 20px}
-  .archive a{color:var(--blue);text-decoration:none;margin-right:12px}
-  .archive a:hover{text-decoration:underline}
-  .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:22px}
-  .controls input,.controls select{background:#0e1426;border:1px solid var(--border);color:var(--txt);
-        padding:10px 12px;border-radius:9px;font-size:14px}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;padding:28px 22px 60px}
+  .wrap{max-width:1280px;margin:0 auto}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:.2px}
+  .subtitle{color:var(--muted);font-size:14px;margin:0 0 16px;max-width:760px}
+  .pill{display:inline-block;background:rgba(39,192,147,.12);color:var(--green);
+    border:1px solid rgba(39,192,147,.4);padding:5px 12px;border-radius:999px;
+    font-size:12.5px;font-weight:600;margin-bottom:14px}
+  .notice{color:var(--muted);font-size:12.5px;margin:0 0 18px;max-width:900px}
+  .archive{display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:10px 14px;margin-bottom:18px;font-size:13px}
+  .archive b{color:var(--muted);font-weight:600;margin-right:4px}
+  .archive a{color:var(--blue);text-decoration:none;padding:3px 9px;
+    border:1px solid var(--border);border-radius:6px}
+  .archive a.current{background:rgba(79,140,255,.14);border-color:rgba(79,140,255,.5)}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+  .controls input,.controls select{background:var(--card);border:1px solid var(--border);
+    color:var(--text);padding:9px 12px;border-radius:8px;font-size:13.5px}
   .controls input{flex:1;min-width:220px}
   .count{margin-left:auto;color:var(--muted);font-size:13px;font-weight:600}
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-  @media(max-width:1150px){.grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:680px){.grid{grid-template-columns:1fr}}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 16px 18px;display:flex;flex-direction:column}
-  .ctop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  .live{color:var(--green);font-size:12px;font-weight:700;letter-spacing:.3px}
-  .idx{color:var(--muted);font-size:12px;font-weight:700}
-  .co{color:#7eb0ff;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
-  .ti{font-size:16.5px;font-weight:700;margin:0 0 10px;line-height:1.25}
-  .meta{font-size:13px;color:var(--txt);margin:2px 0}
-  .meta.muted{color:var(--muted)}
-  .bar{height:8px;background:#0e1426;border-radius:999px;overflow:hidden;margin:12px 0 6px;border:1px solid var(--border)}
-  .bar>span{display:block;height:100%}
-  .fitline{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:10px}
-  .desc{font-size:13px;color:#cbd5ec;margin:4px 0 10px}
-  .note{color:var(--amber)}
-  .vline{font-size:11.5px;color:var(--muted);margin:6px 0 12px}
-  details{margin:0 0 12px;border-top:1px solid var(--border);padding-top:8px}
-  summary{cursor:pointer;font-size:12.5px;color:#7eb0ff;font-weight:600;outline:none}
-  details pre{white-space:pre-wrap;font-size:11.5px;color:#b9c4dc;background:#0b1120;border:1px solid var(--border);
-        border-radius:8px;padding:10px;margin-top:8px;max-height:280px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-  .apply{margin-top:auto;display:block;text-align:center;background:var(--blue2);color:#fff;text-decoration:none;
-        padding:10px;border-radius:9px;font-weight:700;font-size:13.5px}
+  @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:620px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:16px;display:flex;flex-direction:column;gap:9px;position:relative}
+  .card .top{display:flex;justify-content:space-between;align-items:center;font-size:11.5px}
+  .live{color:var(--green);font-weight:700;letter-spacing:.5px}
+  .idx{color:var(--muted);font-weight:600}
+  .co{color:var(--blue);font-weight:700;text-transform:uppercase;font-size:12.5px;letter-spacing:.4px}
+  .title{font-size:16.5px;font-weight:700;margin:-2px 0 2px}
+  .meta{font-size:13px;color:var(--text)}
+  .meta .lab{color:var(--muted)}
+  .bar{height:8px;background:#0c1426;border:1px solid var(--border);border-radius:999px;overflow:hidden;margin-top:2px}
+  .bar > i{display:block;height:100%;border-radius:999px}
+  .fitline{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:1px}
+  .desc{font-size:12.8px;color:#cdd6ea}
+  .note{font-size:12.3px;color:var(--amber)}
+  .verified{font-size:11.8px;color:var(--green)}
+  details{font-size:12.5px}
+  summary{cursor:pointer;color:var(--blue);font-weight:600;font-size:12.5px}
+  details pre{white-space:pre-wrap;background:#0c1426;border:1px solid var(--border);
+    border-radius:8px;padding:11px;margin:8px 0 0;font-size:11.6px;color:#c4cee4;
+    max-height:280px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .apply{margin-top:auto;display:block;text-align:center;background:var(--blue2);
+    color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;
+    padding:11px;border-radius:9px}
   .apply:hover{background:var(--blue)}
-  .closed{margin-top:40px;border-top:1px solid var(--border);padding-top:18px}
-  .closed h2{font-size:15px;color:var(--red);margin:0 0 10px}
-  .closed li{font-size:12.5px;color:var(--muted);margin:5px 0;list-style:none;padding-left:14px;position:relative}
-  .closed li:before{content:"\2715";color:var(--red);position:absolute;left:0}
-  .closed ul{padding:0;margin:0}
+  .closed{margin-top:34px}
+  .closed h2{font-size:15px;color:var(--red);border-left:3px solid var(--red);
+    padding-left:10px;margin-bottom:10px}
+  .closed ul{margin:0;padding:0;list-style:none;font-size:12.8px;color:var(--muted)}
+  .closed li{padding:6px 0;border-bottom:1px solid var(--border)}
+  .closed li b{color:#c9d2e8}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Natasha — Verified Job Tracker</h1>
-  <p class="sub">Every role below was confirmed against the live posting before it was added. Each button links straight to the employer's own posting. Curated for a 20-year, MBA-credentialed talent-acquisition and recruiting-operations leader based in Bend, OR.</p>
-  <span class="pill">✓ Verified · 2026-06-29</span>
-  <p class="notice">Verification method: web-search corroboration (PRIMARY) against each company's own ATS or careers page plus at least one independent source. Connectors scanned: Indeed, ZipRecruiter, Dice (Dice returned only contract/IT roles — none qualified). Live browser (Claude in Chrome) was not used this run; no permission prompt was triggered. No job, salary, location, or verification was fabricated. Roles that could not be confirmed on a company source are listed under "Confirmed closed / changed" below.</p>
-  <div class="archive"><strong style="color:var(--muted)">Archive:</strong>
-    <a href="dashboard-2026-06-29.html">2026-06-29 (today)</a>
+  <p class="subtitle">Every role below was confirmed against the live posting before it made the board. The button on each card links straight to the verified posting.</p>
+  <span class="pill">✓ Verified · 2026-06-30</span>
+  <p class="notice">Verification method: web-search corroboration (primary, no permissions needed). Southland Industries was confirmed on the company's own SilkRoad ATS plus Glassdoor / Indeed / WayUp; Caring for Others was corroborated across its ZipRecruiter listing and Indeed company + salary pages (small employer, no standalone ATS found). Connectors scanned: Indeed, ZipRecruiter, Dice. Live browser (Claude in Chrome) was not used this run. Five additional candidates were dropped as unverifiable or below the salary floor — see the bottom of this page.</p>
+
+  <div class="archive">
+    <b>Archive:</b>
     <a href="dashboard-2026-06-26.html">2026-06-26</a>
+    <a href="dashboard-2026-06-29.html">2026-06-29</a>
+    <a class="current" href="dashboard-2026-06-30.html">2026-06-30 (today)</a>
   </div>
+
   <div class="controls">
     <input id="q" type="text" placeholder="Search company, role, or notes…" oninput="render()">
     <select id="sort" onchange="render()">
@@ -74,20 +90,17 @@
     </select>
     <span class="count" id="count"></span>
   </div>
+
   <div class="grid" id="grid"></div>
 
   <div class="closed">
-    <h2>Confirmed closed / changed — NOT currently open (or unverifiable)</h2>
+    <h2>Confirmed closed / changed / unverifiable — NOT on the board</h2>
     <ul>
-      <li><strong>Soar Autism Center — Director of Talent Acquisition (Remote):</strong> could not confirm the Director role on the company's own careers page (careers list CO/AZ; only a verifiable Talent Acquisition Partner at $80K–$95K). Excluded as unverifiable.</li>
-      <li><strong>Match Group — Senior Recruiter (Remote):</strong> no current remote Senior Recruiter posting confirmable on Match's own ATS; posted comp not corroborated. Excluded as unverifiable.</li>
-      <li><strong>Sift — Senior Recruiter (Remote):</strong> entity ambiguity (Sift Stack robotics vs. Sift fraud-prevention) and no comp confirmable on a company source. Excluded as unverifiable.</li>
-      <li><strong>Securitas — Senior HR Business Partner, Global (Bellevue, WA):</strong> only a Belgium HRBP role was confirmable on the company ATS; the Bellevue posting and comp could not be verified. Excluded as unverifiable.</li>
-      <li><strong>Thumbtack — Sr. Recruiting Manager, Engineering &amp; Data (Remote):</strong> strong on paper, but the specific posting could not be confirmed on careers.thumbtack.com this run. Excluded as unverifiable.</li>
-      <li><strong>Noble House Hotels &amp; Resorts — Corporate Director of Talent Acquisition:</strong> verified, but remote eligibility is limited to WA, SC, GA, NV, TX, CO, LA, VA, FL — Oregon is not eligible, and no salary is posted on the company source. Does not pass filters for a Bend-based candidate.</li>
-      <li><strong>Summit Health — Senior HR Business Partner (Bend/Oregon):</strong> already posted to this board on 2026-06-26. Suppressed as a repeat.</li>
-      <li><strong>Tinuiti — People Business Partner Lead (Remote):</strong> already posted to this board on 2026-06-26. Suppressed as a repeat.</li>
-      <li><strong>MeridianLink — Senior HR Business Partner (Remote):</strong> already posted to this board on 2026-06-26. Suppressed as a repeat.</li>
+      <li><b>POPS ABA — Director of Talent Acquisition (Remote, ~$107K–$147K, ZipRecruiter):</b> could not confirm the posting on the company's own ATS or a second independent source. Excluded pending verification.</li>
+      <li><b>NaphCare — Director of Corporate Talent Acquisition (Remote optional, ~$98K–$134K, ZipRecruiter):</b> only Senior / Talent Acquisition Partner roles are live on NaphCare's ATS (join.naphcare.com); the director-level role was not corroborated.</li>
+      <li><b>Diversified Treatment Alternative Centers — Director of Talent Acquisition &amp; Onboarding (Remote, ~$107K–$146K, ZipRecruiter):</b> no live posting found on the company careers page; salary not independently corroborated.</li>
+      <li><b>Celestica — Candidate Experience Sr. Manager, Talent Acquisition (Remote, $123K–$175K, Dice):</b> the specific role was not found on Celestica's own careers ATS (only a separate Austin TA Manager role is live). Excluded to avoid unverified claims.</li>
+      <li><b>Utopia Fulfillment — Senior Manager, Talent Acquisition (Remote, Indeed):</b> no posted or derivable salary; dropped under the salary-floor rule.</li>
     </ul>
   </div>
 </div>
@@ -96,128 +109,65 @@
 [
   {
     "index": 1,
-    "company": "Kalepa",
-    "title": "Director of Talent Acquisition",
-    "location": "United States (remote)",
-    "work_model": "Remote (US; strong preference for EST/CST)",
-    "salary": "$170,000 - $260,000",
-    "fit_pct": 88,
+    "company": "Southland Industries",
+    "title": "Talent Acquisition Lead",
+    "location": "Union City, CA",
+    "work_model": "Likely hybrid (HQ-based) — confirm",
+    "salary": "$130,000 – $150,000 + annual incentive",
+    "fit_pct": 80,
     "fit_tier": "IDEAL",
-    "why_fit": "A foundational TA-leadership role: set the talent-acquisition vision, personally own hiring outcomes, and build/scale an in-house recruiting team. Direct match to her 20+ years leading full-cycle and technical recruiting.",
-    "apply_url": "https://job-boards.greenhouse.io/kalepa/jobs/5857099004",
-    "source": "ZipRecruiter → verified on Kalepa Greenhouse + kalepa.com/careers",
-    "verified_date": "2026-06-29",
-    "full_jd": "Director of Talent Acquisition (USA) — Kalepa\n\nThe Director of Talent Acquisition is a foundational leadership position, responsible for shaping how Kalepa continues to scale its most valuable asset: people. It is a high-impact role for a strategic and hands-on recruiting leader who can set the talent-acquisition vision, personally own hiring outcomes, build a high-performing team, and partner with executives to ensure Kalepa continues to attract A+ players aligned with the company's culture, values, and ambition to build a generational company disrupting a $7T industry.\n\nLocation: Remote, with a strong preference for candidates in Eastern (EST) or Central (CST) time zones.\n\nResponsibilities: Own and shape Kalepa's talent-acquisition strategy end-to-end; translate business goals into hiring plans across all functions globally, including Engineering, Product, GTM, and Operations; personally run searches for senior and critical roles; build, coach, and scale an in-house recruiting team.\n\nRequirements: 8+ years of recruiting / talent-acquisition experience with a proven track record of attracting and hiring A+ players across several functions at high-growth companies; 2+ years of people-management experience, including building, coaching, and scaling in-house recruiting teams.\n\nAbout Kalepa: Kalepa is revolutionizing insurance underwriting with its AI-powered software, Copilot, which helps underwriters make more informed decisions by consolidating critical information and streamlining the underwriting process.\n\nPosted compensation (per ZipRecruiter listing): $170,000 - $260,000.\n\nNOTE: Bend, OR is in the Pacific time zone; the posting expresses a strong preference (not a hard requirement) for EST/CST. Confirm time-zone flexibility when applying."
+    "why_fit": "A Talent Acquisition Business Partner / Lead driving full-cycle recruiting and workforce planning for California divisions. Maps directly to Natasha's 20-year TA leadership track record and her SRG engineering / technical / manufacturing recruiting experience.",
+    "apply_url": "https://jobs.silkroad.com/Southlandind/Careers/jobs/177336?embedded=true",
+    "source": "Indeed + Dice; verified on Southland Industries SilkRoad ATS",
+    "verified_date": "2026-06-30",
+    "full_jd": "Talent Acquisition Lead — Southland Industries (Union City, CA)\n\nAs a Talent Acquisition Business Partner, Lead for California-based divisions, you will play a pivotal role in driving strategic talent acquisition initiatives for the organization, collaborating closely with business leaders to develop and implement innovative strategies that foster the growth and success of teams.\n\nKey Responsibilities:\n- Lead workforce planning efforts and draft comprehensive annual recruiting plans tailored to the needs of specific regions or business units.\n- Work hand-in-hand with Recruiting Operations, HR Business Partners and other key stakeholders to ensure an exceptional candidate and employee experience.\n- Provide matrix management to recruiting operations resources to fulfill business recruiting needs within the assigned region and/or business units.\n- Partner on professional- to executive-level full-cycle recruitment.\n\nQualifications:\n- 7–10 years of hands-on experience in full-cycle recruitment and workforce planning, specializing in professional to executive-level talent acquisition.\n- Preferred: 5 years of recruiting within the engineering, construction, or building technology sectors.\n- Bachelor's Degree required.\n\nCompensation: For California, $130,000.00 – $150,000.00 plus annual incentive, benefits, and retirement program.\n\nWork model NOTE: The posting is based at Southland's Union City, CA headquarters (SF Bay Area). It reads as an HQ-based / likely-hybrid role; confirm in-office expectation with the recruiter. Under Natasha's filters this clears the hybrid bar (>=$110K, West Coast metro) if in-office time is <=25%.\n\nVerified 2026-06-30 on the Southland Industries SilkRoad careers portal (job 177336) and corroborated on Glassdoor, Indeed, and WayUp."
   },
   {
     "index": 2,
-    "company": "Talnt",
-    "title": "Senior Recruiting Manager",
-    "location": "San Francisco, CA (fully remote)",
-    "work_model": "Remote (US)",
-    "salary": "$120,000 - $150,000",
-    "fit_pct": 85,
-    "fit_tier": "IDEAL",
-    "why_fit": "Leads and scales full-cycle recruiting operations across multiple roles and industries while managing a team of recruiters — a clean match to her recruiting-operations leadership at SRG and Express Employment.",
-    "apply_url": "https://www.careers-page.com/talnt/job/5WVXR855",
-    "source": "ZipRecruiter → verified on Talnt careers page + Remotive",
-    "verified_date": "2026-06-29",
-    "full_jd": "Senior Recruiting Manager (Remote) — Talnt\n\nTalnt is a recruitment-technology company that leverages AI and machine learning to streamline the hiring process.\n\nThe Senior Recruiting Manager is a talent-acquisition leader responsible for managing and scaling full-cycle recruiting operations while ensuring consistent delivery of high-quality candidates across multiple roles and industries. The role combines hands-on recruiting leadership with strategic oversight of recruiting performance, hiring strategy, and team development. The Senior Recruiting Manager partners closely with internal stakeholders and hiring leaders to drive effective sourcing strategies, optimize recruiting processes, and lead a team of recruiters focused on delivering top talent in fast-paced, high-growth hiring environments.\n\nKey requirements: Minimum 7 years of experience in full-cycle recruiting, talent acquisition, or staffing, with at least 3 years of recruiting-team leadership or management experience. Strong expertise with Applicant Tracking Systems and recruiting platforms such as LinkedIn Recruiter and Indeed, plus modern sourcing tools.\n\nLocation: Based in San Francisco, CA; role is fully remote.\n\nPosted compensation: $120,000 - $150,000 / year."
-  },
-  {
-    "index": 3,
-    "company": "Repair the World",
-    "title": "Senior Director of Talent Acquisition",
-    "location": "United States (remote)",
-    "work_model": "Remote (US)",
-    "salary": "$120,000 - $140,000",
-    "fit_pct": 80,
+    "company": "Caring for Others",
+    "title": "Director of Corporate Human Resources",
+    "location": "Redmond, OR",
+    "work_model": "On-site — Redmond HQ (~17 mi from Bend)",
+    "salary": "$125,000 – $145,000",
+    "fit_pct": 72,
     "fit_tier": "STRONG",
-    "why_fit": "Owns recruiting end-to-end on the People & Culture team, running full-cycle senior and executive searches and building candidate systems — aligned with her executive/technical search and full-cycle background.",
-    "apply_url": "https://jobs.remotequeer.co/jobs/senior-director-of-talent-acquisition-565414dd",
-    "source": "ZipRecruiter → verified role exists via Repair the World posting (reports to COO)",
-    "verified_date": "2026-06-29",
-    "full_jd": "Senior Director of Talent Acquisition — Repair the World\n\nThe Director/Senior Director of Talent Acquisition sits within the People and Culture team and reports to the Chief Operating Officer. This role owns recruiting at Repair: running full-cycle searches, building systems to track and manage candidates, and developing Repair's presence in Jewish communal, nonprofit, and mission-driven talent networks.\n\nThe ideal candidate has 5+ years of experience leading talent acquisition, including senior and executive-level searches, and a demonstrated ability to design and manage full-cycle recruitment processes across multiple roles simultaneously.\n\nInterview process: first-round screening with a recruiting partner of Repair's People & Culture team; second-round interview with the Chief Operating Officer and Senior Director of People & Culture; finalists interview virtually with Repair's Chief Strategy Officer and in person in New York with Repair's Chief Operating Officer.\n\nPosted compensation (per ZipRecruiter listing): $120,000 - $140,000.\n\nNOTE: Role is remote, but finalists complete an in-person interview in New York. Confirm any ongoing travel expectations."
-  },
-  {
-    "index": 4,
-    "company": "Precise Flight",
-    "title": "Human Resources Manager",
-    "location": "Bend, OR (on-site; multi-site)",
-    "work_model": "On-site in Bend, OR (travel to Marysville, WA and Edmonton, Canada)",
-    "salary": "$95,000 - $125,000",
-    "fit_pct": 79,
-    "fit_tier": "STRONG",
-    "why_fit": "Bend-based, multi-site HR leadership — directly local to her and a match to her operations-management and people-leadership background. Highly actionable given location.",
-    "apply_url": "https://www.ziprecruiter.com/c/Precise-Flight/Job/Human-Resources-Manager/-in-Bend,OR?jid=30b7faff74d3db97",
-    "source": "ZipRecruiter (company posting) → corroborated via Indeed/LinkedIn/Glassdoor Bend HR listings",
-    "verified_date": "2026-06-29",
-    "full_jd": "Human Resources Manager — Precise Flight, Inc. (Bend, OR)\n\nThis role leads the day-to-day operations of multi-site Human Resources departments, ensuring effective execution of programs, processes, and services that support organizational objectives. The HR Manager manages staff, allocates resources, and monitors performance to ensure operational goals are achieved.\n\nThe position involves partnering with internal stakeholders to implement initiatives, improve processes, and maintain compliance with organizational policies and standards. The HR Manager is responsible for traveling to provide HR leadership to Precise Flight's businesses in Bend, Oregon; Marysville, Washington; and Edmonton, Canada.\n\nLocation: Bend, OR (on-site), with travel to the Washington and Canada sites.\n\nPosted compensation: $95,000 - $125,000 / year.\n\nNOTE: On-site Bend role qualifies under the Bend, OR filter. Multi-site travel is required."
-  },
-  {
-    "index": 5,
-    "company": "HALO Precision Diagnostics",
-    "title": "HR Director",
-    "location": "United States (remote; multi-state)",
-    "work_model": "Remote (US; multi-site organization scaling across North America)",
-    "salary": "$155,000 - $185,000",
-    "fit_pct": 78,
-    "fit_tier": "STRONG",
-    "why_fit": "Strategic, hands-on HR leadership across a multi-state organization with an explicit talent-acquisition and development mandate — leverages both her HR-leadership and TA strengths at a higher comp band.",
-    "apply_url": "https://www.halodx.com/careers/",
-    "source": "Indeed → verified on HALO careers page + Remote Rocketship/Built In/Glassdoor",
-    "verified_date": "2026-06-29",
-    "full_jd": "HR Director — HALO Precision Diagnostics\n\nHALO Precision Diagnostics is seeking a strategic and hands-on HR Director to lead and evolve its Human Resources function across a multi-state, multi-site organization. The Director acts as a trusted partner to executive and operational leadership to build a best-in-class workforce through a strategic vision for talent acquisition and development.\n\nHALO is a fast-growing health-tech services company scaling across North America, building the future of precision diagnostics, and is looking for leaders energized by the opportunity to build, scale, and grow with the company as part of its mission of saving lives through early detection.\n\nLocation: Remote (multi-state / North America).\n\nPosted compensation: $155,000 - $185,000 / year."
-  },
-  {
-    "index": 6,
-    "company": "AKIVA AI",
-    "title": "Senior Recruiting Manager",
-    "location": "Raleigh, NC (listed remote)",
-    "work_model": "Remote (listed) — supports North Carolina community colleges",
-    "salary": "$125,000 - $185,000",
-    "fit_pct": 62,
-    "fit_tier": "POSSIBLE",
-    "why_fit": "Leads recruitment operations and supervises a recruiting team against contractual delivery SLAs — matches her recruiting-operations and team-leadership experience, though the engagement is tied to NC community colleges.",
-    "apply_url": "https://www.ziprecruiter.com/Jobs/Remote-Recruiting-Manager",
-    "source": "ZipRecruiter → role corroborated via TheLadders/Snagajob/CareerPlug",
-    "verified_date": "2026-06-29",
-    "full_jd": "Senior Recruiting Manager — AKIVA AI\n\nAKIVA is seeking a Senior Recruiting Manager to lead recruitment operations and supervise the recruiting team supporting participating North Carolina community colleges.\n\nResponsibilities: manage recruitment workflow, requisition assignments, and candidate fulfillment across participating colleges; oversee candidate sourcing, screening, and submission to meet the contract's five-business-day recommendation requirement; collaborate with college HR offices to develop job descriptions, duties, and minimum qualifications; ensure qualified candidates are recommended within required timelines. The role is equipped with AI-powered sourcing and screening tools.\n\nAbout AKIVA: an AI-native engineering firm specializing in enterprise services, domain-specific solutions, and high-performance infrastructure; a certified Service-Disabled Veteran-Owned Small Business (SDVOSB).\n\nBenefits: professional development, 401(k) with company match, medical/dental/vision, disability insurance, PTO, and profit sharing.\n\nPosted compensation (per ZipRecruiter listing): $125,000 - $185,000.\n\nNOTE: Listed as remote (Raleigh, NC), but the engagement supports North Carolina community colleges — confirm remote-from-Oregon eligibility and the exact salary on the company's own application before investing time."
+    "why_fit": "Director-level corporate HR leadership at a Central Oregon headquarters within commuting distance of Bend. Aligns with Natasha's HR / operations leadership and MBA in Human Resource Management, and it is a rare senior local opening.",
+    "apply_url": "https://www.ziprecruiter.com/job-redirect?match_token=CowBChZSSnM5eThFaWh1UUVQc3ZUa29HRFlBEiQwMTlmMTkxMy1kNTE3LTdhNzUtYTkxMS03MWY0YzQxMTkyMzMaSEFBRnJHUHpNdkZ3bk83UXBTRmJWTGNpYUhYTUVqRC1KMGdqWFNoN1FuZnZvNFBuUy0yVVdWVjVQSndJSGZyeWdES0JiYnhaXyDJrQUQARjJrQU%3D&tsid=100000502",
+    "source": "ZipRecruiter; corroborated on Indeed company + salary pages",
+    "verified_date": "2026-06-30",
+    "full_jd": "Director of Corporate Human Resources — Caring for Others (Redmond, OR)\n\nCaring for Others operates its administrative headquarters in Redmond, Oregon, where the corporate team ensures each location performs to the company's gold standard while staying attentive to local community needs. The Director of Corporate Human Resources sits within that administrative leadership group, overseeing HR for the company and its many branches.\n\nScope (from the posting and company materials):\n- Lead corporate human resources across a multi-location organization.\n- Partner with administration, scheduling, and operations leadership to keep the company operating at peak efficiency.\n- Director-level ownership of HR strategy, employee relations, and people operations.\n\nCompensation: $125,000 – $145,000 a year (full-time, on-site), with medical, vision, dental, paid time off, life insurance, and retirement benefits listed.\n\nLocation / work model NOTE: This role is ON-SITE at the Redmond, OR headquarters, roughly 17 miles north of Bend — a routine Central Oregon commute but not Bend proper and not remote. It is included because it is a senior, local, well-compensated HR leadership opening; confirm any hybrid flexibility with the employer.\n\nVerified 2026-06-30 via the ZipRecruiter listing and corroborated on the Caring for Others Indeed company page and Indeed 'Director of Human Resources' salary page. Caring for Others is a smaller employer with no standalone ATS located this run."
   }
 ]
 </script>
 
 <script>
-  var JOBS = JSON.parse(document.getElementById('natasha-jobs').textContent);
-  function fitColor(p){ return p>=70 ? 'var(--green)' : (p>=50 ? 'var(--amber)' : 'var(--red)'); }
-  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  const JOBS = JSON.parse(document.getElementById('natasha-jobs').textContent);
+  function color(p){return p>=70?'var(--green)':p>=50?'var(--amber)':'var(--red)';}
   function render(){
-    var q = document.getElementById('q').value.toLowerCase().trim();
-    var sort = document.getElementById('sort').value;
-    var list = JOBS.filter(function(j){
-      if(!q) return true;
-      return (j.company+' '+j.title+' '+j.why_fit+' '+j.location+' '+j.salary).toLowerCase().indexOf(q) > -1;
+    const q=document.getElementById('q').value.toLowerCase().trim();
+    const sort=document.getElementById('sort').value;
+    let list=JOBS.filter(j=>{
+      const hay=(j.company+' '+j.title+' '+j.why_fit+' '+j.location+' '+j.work_model).toLowerCase();
+      return !q || hay.includes(q);
     });
-    list.sort(function(a,b){
-      return sort==='company' ? a.company.localeCompare(b.company) : b.fit_pct - a.fit_pct;
-    });
-    document.getElementById('count').textContent = list.length + ' verified role' + (list.length===1?'':'s');
-    var g = list.map(function(j){
-      return '<div class="card">'
-        + '<div class="ctop"><span class="live">● LIVE</span><span class="idx">#'+j.index+'</span></div>'
-        + '<div class="co">'+esc(j.company)+'</div>'
-        + '<div class="ti">'+esc(j.title)+'</div>'
-        + '<div class="meta">💰 '+esc(j.salary || 'Not posted')+'</div>'
-        + '<div class="meta muted">📍 '+esc(j.location)+' — '+esc(j.work_model)+'</div>'
-        + '<div class="bar"><span style="width:'+j.fit_pct+'%;background:'+fitColor(j.fit_pct)+'"></span></div>'
-        + '<div class="fitline"><span>'+esc(j.fit_tier)+'</span><span>'+j.fit_pct+'% fit</span></div>'
-        + '<div class="desc">'+esc(j.why_fit)+'</div>'
-        + '<div class="vline">✓ Verified '+esc(j.verified_date)+' · '+esc(j.source)+'</div>'
-        + '<details><summary>Full JD</summary><pre>'+esc(j.full_jd)+'</pre></details>'
-        + '<a class="apply" href="'+j.apply_url+'" target="_blank" rel="noopener">Apply / view posting →</a>'
-        + '</div>';
-    }).join('');
-    document.getElementById('grid').innerHTML = g;
+    list.sort((a,b)=> sort==='company' ? a.company.localeCompare(b.company) : b.fit_pct-a.fit_pct);
+    const grid=document.getElementById('grid');
+    grid.innerHTML=list.map(j=>`
+      <div class="card">
+        <div class="top"><span class="live">● LIVE</span><span class="idx">#${j.index}</span></div>
+        <div class="co">${j.company}</div>
+        <div class="title">${j.title}</div>
+        <div class="meta"><span class="lab">💰</span> ${j.salary||'Not posted'}</div>
+        <div class="meta"><span class="lab">📍</span> ${j.location} — ${j.work_model}</div>
+        <div class="bar"><i style="width:${j.fit_pct}%;background:${color(j.fit_pct)}"></i></div>
+        <div class="fitline"><span>${j.fit_tier}</span><span>${j.fit_pct}% fit</span></div>
+        <div class="desc">${j.why_fit}</div>
+        ${/NOTE/i.test(j.full_jd)?`<div class="note">⚠ See work-model NOTE in the full JD.</div>`:''}
+        <div class="verified">✓ ${j.source} · ${j.verified_date}</div>
+        <details><summary>Full JD</summary><pre>${j.full_jd.replace(/</g,'&lt;')}</pre></details>
+        <a class="apply" href="${j.apply_url}" target="_blank" rel="noopener">Apply / view posting →</a>
+      </div>`).join('');
+    document.getElementById('count').textContent=list.length+' verified role'+(list.length===1?'':'s');
   }
   render();
 </script>
