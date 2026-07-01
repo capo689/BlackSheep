@@ -1,6 +1,6 @@
 {
   "_comment": "Permanent dedup memory for Natasha Cagle's weekday job screen. Independent of Ace's ledger. Any job whose key OR any url appears here has ALREADY been posted to her board and must NEVER appear again. Key = lowercased normalized company + ' | ' + normalized title (NO location). Append new entries each run; never delete.",
-  "updated": "2026-06-30",
+  "updated": "2026-07-01",
   "entries": [
     {
       "key": "hims & hers | director talent acquisition operations & enablement",
@@ -106,6 +106,41 @@
       "title": "Director of Corporate Human Resources",
       "first_seen": "2026-06-30",
       "urls": ["https://www.ziprecruiter.com/job-redirect", "https://www.indeed.com/cmp/caring-for-others-3"]
+    },
+    {
+      "key": "hadley designs | director of talent acquisition and people operations",
+      "company": "Hadley Designs",
+      "title": "Director of Talent Acquisition & People Operations",
+      "first_seen": "2026-07-01",
+      "urls": ["https://apply.workable.com/hadley-designs/j/e2d11f1ead"]
+    },
+    {
+      "key": "soar autism center | director of talent acquisition",
+      "company": "Soar Autism Center",
+      "title": "Director of Talent Acquisition",
+      "first_seen": "2026-07-01",
+      "urls": ["https://soarautismcenter.com/careers", "https://www.soarautism.com/careers"]
+    },
+    {
+      "key": "archwell health | director human resources",
+      "company": "ArchWell Health",
+      "title": "Director, Human Resources",
+      "first_seen": "2026-07-01",
+      "urls": ["https://careers.archwellhealth.com", "https://to.indeed.com/aafxyzjrqndg"]
+    },
+    {
+      "key": "cbre | people business partner",
+      "company": "CBRE",
+      "title": "People Business Partner",
+      "first_seen": "2026-07-01",
+      "urls": ["https://careers.cbre.com/en_us/careers/jobdetail/people-business-partner/264747"]
+    },
+    {
+      "key": "defcon ai | technical recruiter defense tech",
+      "company": "Defcon AI (Red Cell Partners)",
+      "title": "Technical Recruiter (Defense Tech)",
+      "first_seen": "2026-07-01",
+      "urls": ["https://job-boards.greenhouse.io/redcellpartners/jobs/5175332007"]
     }
   ]
 }

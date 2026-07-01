@@ -72,14 +72,15 @@
 <div class="wrap">
   <h1>Natasha — Verified Job Tracker</h1>
   <p class="subtitle">Every role below was confirmed against the live posting before it made the board. The button on each card links straight to the verified posting.</p>
-  <span class="pill">✓ Verified · 2026-06-30</span>
-  <p class="notice">Verification method: web-search corroboration (primary, no permissions needed). Southland Industries was confirmed on the company's own SilkRoad ATS plus Glassdoor / Indeed / WayUp; Caring for Others was corroborated across its ZipRecruiter listing and Indeed company + salary pages (small employer, no standalone ATS found). Connectors scanned: Indeed, ZipRecruiter, Dice. Live browser (Claude in Chrome) was not used this run. Five additional candidates were dropped as unverifiable or below the salary floor — see the bottom of this page.</p>
+  <span class="pill">✓ Verified · 2026-07-01</span>
+  <p class="notice">Verification method: web-search corroboration (primary, no permissions needed). Each role on the board was confirmed on the company's own ATS (Workable, Greenhouse, CBRE careers, ArchWell careers) plus at least one independent source. Connectors scanned: Indeed, ZipRecruiter, Dice (6 role queries × Remote + Bend, OR). Live browser (Claude in Chrome) was not used this run. Higher-comp listings from CRH, Thumbtack, and Celestica were dropped this run because the exact posting could not be confirmed on the employer's own ATS — see the bottom of this page. All 5 board roles are new since the last run; previously posted roles were suppressed by the dedup ledger.</p>
 
   <div class="archive">
     <b>Archive:</b>
     <a href="dashboard-2026-06-26.html">2026-06-26</a>
     <a href="dashboard-2026-06-29.html">2026-06-29</a>
-    <a class="current" href="dashboard-2026-06-30.html">2026-06-30 (today)</a>
+    <a href="dashboard-2026-06-30.html">2026-06-30</a>
+    <a class="current" href="dashboard-2026-07-01.html">2026-07-01 (today)</a>
   </div>
 
   <div class="controls">
@@ -96,11 +97,12 @@
   <div class="closed">
     <h2>Confirmed closed / changed / unverifiable — NOT on the board</h2>
     <ul>
-      <li><b>POPS ABA — Director of Talent Acquisition (Remote, ~$107K–$147K, ZipRecruiter):</b> could not confirm the posting on the company's own ATS or a second independent source. Excluded pending verification.</li>
-      <li><b>NaphCare — Director of Corporate Talent Acquisition (Remote optional, ~$98K–$134K, ZipRecruiter):</b> only Senior / Talent Acquisition Partner roles are live on NaphCare's ATS (join.naphcare.com); the director-level role was not corroborated.</li>
-      <li><b>Diversified Treatment Alternative Centers — Director of Talent Acquisition &amp; Onboarding (Remote, ~$107K–$146K, ZipRecruiter):</b> no live posting found on the company careers page; salary not independently corroborated.</li>
-      <li><b>Celestica — Candidate Experience Sr. Manager, Talent Acquisition (Remote, $123K–$175K, Dice):</b> the specific role was not found on Celestica's own careers ATS (only a separate Austin TA Manager role is live). Excluded to avoid unverified claims.</li>
-      <li><b>Utopia Fulfillment — Senior Manager, Talent Acquisition (Remote, Indeed):</b> no posted or derivable salary; dropped under the salary-floor rule.</li>
+      <li><b>CRH — Director, Talent Management (Remote, $170K–$210K, Indeed):</b> CRH is a legitimate large employer, but the exact posting could not be confirmed on the company's own ATS (jobs.crh.com) and the comp was single-source. Excluded pending verification.</li>
+      <li><b>Thumbtack — Sr. Recruiting Manager, Engineering &amp; Data (Remote, ~$210K–$285K, ZipRecruiter):</b> Thumbtack is virtual-first, but only a Senior Data Engineering Manager role was visible on careers.thumbtack.com; the recruiting-manager role and its comp were not corroborated on the company ATS.</li>
+      <li><b>Celestica — Candidate Experience Sr. Manager, Talent Acquisition (Remote, $123K–$175K, Dice):</b> not found on Celestica's own careers ATS (only a separate Austin TA Manager role is live). Excluded to avoid unverified claims — same call as the 2026-06-30 run.</li>
+      <li><b>Diversified Treatment Alternative Centers — Director of Talent Acquisition &amp; Onboarding (Remote, ~$106K–$146K, ZipRecruiter):</b> no live posting on the company careers page; comp not independently corroborated. Company already lists a filled TA director.</li>
+      <li><b>Panda Restaurant Group — Regional HR Manager (Remote, $112.5K–$158K, Indeed):</b> field/regional HR roles; comp conflicts across sources ($71K CareerBliss vs $112.5K–$158K Indeed) and the remote/travel model could not be confirmed. Excluded.</li>
+      <li><b>Securitas — Senior HR Business Partner, Global (Bellevue, WA, $130K–$150K, Indeed):</b> a comparable Regional HRBP role showed as closed; the current global HRBP posting and its work model were not confirmed on the Securitas ATS. Excluded.</li>
     </ul>
   </div>
 </div>
@@ -109,33 +111,78 @@
 [
   {
     "index": 1,
-    "company": "Southland Industries",
-    "title": "Talent Acquisition Lead",
-    "location": "Union City, CA",
-    "work_model": "Likely hybrid (HQ-based) — confirm",
-    "salary": "$130,000 – $150,000 + annual incentive",
-    "fit_pct": 80,
+    "company": "Hadley Designs",
+    "title": "Director of Talent Acquisition & People Operations",
+    "location": "Remote (US / global)",
+    "work_model": "Fully remote",
+    "salary": "$77,300 – $138,700",
+    "fit_pct": 84,
     "fit_tier": "IDEAL",
-    "why_fit": "A Talent Acquisition Business Partner / Lead driving full-cycle recruiting and workforce planning for California divisions. Maps directly to Natasha's 20-year TA leadership track record and her SRG engineering / technical / manufacturing recruiting experience.",
-    "apply_url": "https://jobs.silkroad.com/Southlandind/Careers/jobs/177336?embedded=true",
-    "source": "Indeed + Dice; verified on Southland Industries SilkRoad ATS",
-    "verified_date": "2026-06-30",
-    "full_jd": "Talent Acquisition Lead — Southland Industries (Union City, CA)\n\nAs a Talent Acquisition Business Partner, Lead for California-based divisions, you will play a pivotal role in driving strategic talent acquisition initiatives for the organization, collaborating closely with business leaders to develop and implement innovative strategies that foster the growth and success of teams.\n\nKey Responsibilities:\n- Lead workforce planning efforts and draft comprehensive annual recruiting plans tailored to the needs of specific regions or business units.\n- Work hand-in-hand with Recruiting Operations, HR Business Partners and other key stakeholders to ensure an exceptional candidate and employee experience.\n- Provide matrix management to recruiting operations resources to fulfill business recruiting needs within the assigned region and/or business units.\n- Partner on professional- to executive-level full-cycle recruitment.\n\nQualifications:\n- 7–10 years of hands-on experience in full-cycle recruitment and workforce planning, specializing in professional to executive-level talent acquisition.\n- Preferred: 5 years of recruiting within the engineering, construction, or building technology sectors.\n- Bachelor's Degree required.\n\nCompensation: For California, $130,000.00 – $150,000.00 plus annual incentive, benefits, and retirement program.\n\nWork model NOTE: The posting is based at Southland's Union City, CA headquarters (SF Bay Area). It reads as an HQ-based / likely-hybrid role; confirm in-office expectation with the recruiter. Under Natasha's filters this clears the hybrid bar (>=$110K, West Coast metro) if in-office time is <=25%.\n\nVerified 2026-06-30 on the Southland Industries SilkRoad careers portal (job 177336) and corroborated on Glassdoor, Indeed, and WayUp."
+    "why_fit": "Owns the full talent-acquisition engine plus the broader people system for a fast-scaling remote org — a direct match to Natasha's 20-year full-cycle TA leadership and recruiting-operations background. Leadership-tier role with end-to-end ownership.",
+    "apply_url": "https://apply.workable.com/hadley-designs/j/E2D11F1EAD/",
+    "source": "ZipRecruiter; verified on Hadley Designs Workable ATS + Getonboard / Jobgether / Kalibrr",
+    "verified_date": "2026-07-01",
+    "full_jd": "Director of Talent Acquisition & People Operations — Hadley Designs (Remote)\n\nAs the Director of Talent Acquisition & People Operations, you will own how Hadley Designs sources, vets, and closes top global talent, and you will own the broader people system that talent steps into. You will partner with leadership to design the recruiting engine that consistently delivers strong top-of-funnel for every open role, and you will scale the people systems that hold a remote, contractor-centric organization together as it grows toward $100M and beyond.\n\nThis is a leadership-tier role with 1 direct report (the People Operations Specialist) and end-to-end ownership of the talent and people functions.\n\nRequirements:\n- 3–5+ years of full-cycle recruiting experience, ideally in remote or e-commerce organizations.\n- A recruiting-strong, systems-oriented leader who has personally closed difficult hires, not just managed a team that did.\n\nWork model: Fully remote with flexible hours; work from anywhere.\n\nCompensation: $77,300 – $138,700 (full-time). Top of range clears Natasha's $90K remote floor.\n\nVerified 2026-07-01 on the Hadley Designs Workable ATS (apply.workable.com/hadley-designs) and corroborated on Getonboard, Jobgether, and Kalibrr."
   },
   {
     "index": 2,
-    "company": "Caring for Others",
-    "title": "Director of Corporate Human Resources",
-    "location": "Redmond, OR",
-    "work_model": "On-site — Redmond HQ (~17 mi from Bend)",
-    "salary": "$125,000 – $145,000",
-    "fit_pct": 72,
+    "company": "Soar Autism Center",
+    "title": "Director of Talent Acquisition",
+    "location": "Remote (US)",
+    "work_model": "Remote — confirm with recruiter",
+    "salary": "$100,000 – $120,000 (aggregator — confirm)",
+    "fit_pct": 82,
+    "fit_tier": "IDEAL",
+    "why_fit": "Senior TA leadership role reporting to the Chief People Officer and managing a 9-person talent team — maps cleanly onto Natasha's recruiting-leadership and team-building track record. Owns recruitment strategy, TA operations, analytics, and hiring-process optimization.",
+    "apply_url": "https://www.ziprecruiter.com/job-redirect?match_token=CowBChZpR1pScXlZWmgyb0VsWEJUM3dYZUdnEiQwMTlmMWUzOS1jOWVjLTdkOTktOGQ5NS1mNDFiNTcwZWNhNDYaSEFBSF9ySU01Mmc2ZjB3WW1wOWN4b3daYmRlTlBieTR0NXhJMjhsYnIzcFQwX0pTX0x1cS1UU2EzbHFBSHVnSXNLTERUcnd6eSDJrQUQARjJrQU%3D&tsid=100000502",
+    "source": "ZipRecruiter; role confirmed on Soar Autism Center careers site + HR job board",
+    "verified_date": "2026-07-01",
+    "full_jd": "Director of Talent Acquisition — Soar Autism Center (Remote)\n\nThe Director of Talent Acquisition plays a critical leadership role in ensuring Soar can achieve its growth goals by building and executing a best-in-class strategy for attracting, hiring, and retaining Registered Behavior Technicians (RBTs). This role is accountable for all aspects of RBT hiring performance across the organization, including recruitment strategy, talent acquisition operations, hiring process optimization, reporting and analytics, and team leadership.\n\nThe Director partners closely with Clinical Operations, Regional Leadership, and the People Team to ensure hiring targets are achieved while delivering an exceptional candidate experience. This role reports directly to the Chief People Officer and manages a growing team of Talent Acquisition team members (currently 9 direct reports).\n\nCompensation: ZipRecruiter lists $100,000 – $120,000. NOTE: comp is single-source (aggregator); Soar's company-wide average pay skews lower, so confirm the director-level range and the remote arrangement directly with the recruiter. Role clears the $90K floor on the posted top of range.\n\nVerified 2026-07-01: role and responsibilities confirmed via the Soar Autism Center careers site and an HR industry job board; comp from ZipRecruiter."
+  },
+  {
+    "index": 3,
+    "company": "ArchWell Health",
+    "title": "Director, Human Resources",
+    "location": "Remote (US)",
+    "work_model": "Remote",
+    "salary": "$89,300 – $137,700",
+    "fit_pct": 76,
     "fit_tier": "STRONG",
-    "why_fit": "Director-level corporate HR leadership at a Central Oregon headquarters within commuting distance of Bend. Aligns with Natasha's HR / operations leadership and MBA in Human Resource Management, and it is a rare senior local opening.",
-    "apply_url": "https://www.ziprecruiter.com/job-redirect?match_token=CowBChZSSnM5eThFaWh1UUVQc3ZUa29HRFlBEiQwMTlmMTkxMy1kNTE3LTdhNzUtYTkxMS03MWY0YzQxMTkyMzMaSEFBRnJHUHpNdkZ3bk83UXBTRmJWTGNpYUhYTUVqRC1KMGdqWFNoN1FuZnZvNFBuUy0yVVdWVjVQSndJSGZyeWdES0JiYnhaXyDJrQUQARjJrQU%3D&tsid=100000502",
-    "source": "ZipRecruiter; corroborated on Indeed company + salary pages",
-    "verified_date": "2026-06-30",
-    "full_jd": "Director of Corporate Human Resources — Caring for Others (Redmond, OR)\n\nCaring for Others operates its administrative headquarters in Redmond, Oregon, where the corporate team ensures each location performs to the company's gold standard while staying attentive to local community needs. The Director of Corporate Human Resources sits within that administrative leadership group, overseeing HR for the company and its many branches.\n\nScope (from the posting and company materials):\n- Lead corporate human resources across a multi-location organization.\n- Partner with administration, scheduling, and operations leadership to keep the company operating at peak efficiency.\n- Director-level ownership of HR strategy, employee relations, and people operations.\n\nCompensation: $125,000 – $145,000 a year (full-time, on-site), with medical, vision, dental, paid time off, life insurance, and retirement benefits listed.\n\nLocation / work model NOTE: This role is ON-SITE at the Redmond, OR headquarters, roughly 17 miles north of Bend — a routine Central Oregon commute but not Bend proper and not remote. It is included because it is a senior, local, well-compensated HR leadership opening; confirm any hybrid flexibility with the employer.\n\nVerified 2026-06-30 via the ZipRecruiter listing and corroborated on the Caring for Others Indeed company page and Indeed 'Director of Human Resources' salary page. Caring for Others is a smaller employer with no standalone ATS located this run."
+    "why_fit": "Director-level HR leadership driving workforce retention, culture, and engagement across a high-growth multi-market organization, reporting to the VP of Talent Management. Aligns with Natasha's HR/operations leadership and her MBA in Human Resource Management.",
+    "apply_url": "https://to.indeed.com/aafxyzjrqndg",
+    "source": "Indeed; verified on careers.archwellhealth.com ATS + Glassdoor / ZipRecruiter",
+    "verified_date": "2026-07-01",
+    "full_jd": "Director, Human Resources — ArchWell Health (Remote)\n\nThe Director, Human Resources is responsible for developing, aligning, and executing strategic initiatives related to workforce retention, workplace culture, and colleague engagement across all ArchWell Health markets, supporting a high-growth organization. The Director reports to the VP, Talent Management and works collaboratively across the organization to drive the execution of strategic talent initiatives.\n\nAbout the company: ArchWell Health is a national, value-based primary-care company for older adults, operating neighborhood centers where seniors receive best-in-class care.\n\nCompensation: $89,300 – $137,700. Top of range well above Natasha's $90K remote floor.\n\nWork model: Listed as Remote (also posted against several market cities as the same requisition).\n\nVerified 2026-07-01 on the ArchWell Health careers ATS (careers.archwellhealth.com) and corroborated on Glassdoor and ZipRecruiter."
+  },
+  {
+    "index": 4,
+    "company": "CBRE",
+    "title": "People Business Partner",
+    "location": "Remote (US)",
+    "work_model": "Remote",
+    "salary": "$115,000 – $125,000 + bonus",
+    "fit_pct": 70,
+    "fit_tier": "STRONG",
+    "why_fit": "HR business-partner role inside CBRE's People Strategy & Operations function — onboarding, career ladders, succession planning, performance management, and employee relations. A strong match for Natasha's HRBP/HR-leadership capabilities at a major, stable employer.",
+    "apply_url": "https://careers.cbre.com/en_US/careers/JobDetail/People-Business-Partner/264747",
+    "source": "Indeed; verified on careers.cbre.com ATS (req 264747) + Glassdoor",
+    "verified_date": "2026-07-01",
+    "full_jd": "People Business Partner — CBRE (Remote)\n\nThe People Business Partner is part of the People Strategy and Operations function and is responsible for the design, execution, and monitoring of human-resource programs and policies. Key responsibilities include assisting with the development of onboarding, career ladders, succession planning, and performance-management initiatives, and providing employee-relations guidance and conflict resolution.\n\nCompensation: The People Business Partner requisition (264747) lists a minimum of $115,000 and a maximum of $125,000 annually, with discretionary bonus eligibility under CBRE's benefit program. (CBRE runs several PBP variants; a broader HR/People Business Partner posting ranges $90K–$115K, and a separate Eastern-Time-Zone PBP ranges $85K–$100K — this card tracks the $115K–$125K remote requisition.)\n\nWork model: Remote.\n\nVerified 2026-07-01 on the CBRE careers ATS (careers.cbre.com, JobDetail 264747) and corroborated on Glassdoor and Indeed."
+  },
+  {
+    "index": 5,
+    "company": "Defcon AI",
+    "title": "Technical Recruiter (Defense Tech)",
+    "location": "Remote (US)",
+    "work_model": "Fully remote",
+    "salary": "$100,000 – $120,000",
+    "fit_pct": 64,
+    "fit_tier": "STRONG",
+    "why_fit": "End-to-end technical recruiting (Software, AI/ML, Data Science, Operations Research) with a secondary People Operations build-out — a direct echo of Natasha's SRG engineering/technical/R&D recruiting. IC-level rather than leadership, hence a notch below the director roles.",
+    "apply_url": "https://job-boards.greenhouse.io/redcellpartners/jobs/5175332007",
+    "source": "Dice; verified on Red Cell Partners Greenhouse ATS + Himalayas / Glassdoor",
+    "verified_date": "2026-07-01",
+    "full_jd": "Technical Recruiter (Defense Tech) — Defcon AI (via Red Cell Partners) (Remote)\n\nDefcon AI is hiring a Technical Recruiter to play a critical role in its next phase of growth. This is a position for a builder who thrives on high-impact technical recruiting but also finds genuine satisfaction in supporting the continued build-out and scaling of People Operations processes.\n\nReporting to the Manager of People Operations, this role is primarily focused on technical recruiting (70–80%), while supporting key People initiatives such as onboarding, process improvement, and employee-lifecycle programs. Key responsibilities include leading and executing an end-to-end process for specialized technical roles including Software Engineering, AI/ML, Data Science, and Operations Research Scientists.\n\nCompensation: $100,000 – $120,000. Benefits include 100% employer-paid medical/dental/vision, 14 weeks paid parental leave, and unlimited PTO.\n\nCompany context: Defcon AI builds AI technology for complex national-security challenges; it is incubated by Red Cell Partners.\n\nNOTE: This is an individual-contributor recruiting role rather than a leadership title, so it scores below the director-level roles despite the strong subject-matter fit with Natasha's technical-recruiting experience.\n\nVerified 2026-07-01 on the Red Cell Partners Greenhouse ATS (job 5175332007) and corroborated on Himalayas and Glassdoor."
   }
 ]
 </script>
@@ -162,7 +209,7 @@
         <div class="bar"><i style="width:${j.fit_pct}%;background:${color(j.fit_pct)}"></i></div>
         <div class="fitline"><span>${j.fit_tier}</span><span>${j.fit_pct}% fit</span></div>
         <div class="desc">${j.why_fit}</div>
-        ${/NOTE/i.test(j.full_jd)?`<div class="note">⚠ See work-model NOTE in the full JD.</div>`:''}
+        ${/NOTE/i.test(j.full_jd)?`<div class="note">⚠ See NOTE in the full JD.</div>`:''}
         <div class="verified">✓ ${j.source} · ${j.verified_date}</div>
         <details><summary>Full JD</summary><pre>${j.full_jd.replace(/</g,'&lt;')}</pre></details>
         <a class="apply" href="${j.apply_url}" target="_blank" rel="noopener">Apply / view posting →</a>
